@@ -1,2 +1,1 @@
-Build 0.4 hotfix: bootstrap storico XRP 5m e BTC 15m tramite REST pubblico, poi streaming WebSocket per aggiornamenti live. Solo dati pubblici, nessuna API key e nessun ordine.
-Version marker fix: footer BUILD 0.4 and service worker cache namespace xrp-quant-v04.
+BUILD 0.5 — scoring sperimentale LONG/SHORT, predictability, soglie adattive 25/30/40 e contributi. Dati pubblici Bybit, nessun accesso privato e nessun ordine. Punteggi non sono probabilità e non sono validati: solo osservazione/ricerca. Sostituire i file nella root del repository.
