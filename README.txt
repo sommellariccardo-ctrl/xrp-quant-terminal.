@@ -1,1 +1,1 @@
-Build 0.3: WebSocket pubblico Bybit linear. Aggiornamenti push per ticker XRPUSDT, orderbook top, candele XRP 5m e BTC 15m. Non fa polling REST ogni secondo, per evitare rate limit. Solo dati pubblici; nessuna chiave API e nessun ordine. Sostituire file nella root repository.
+Build 0.4 hotfix: bootstrap storico XRP 5m e BTC 15m tramite REST pubblico, poi streaming WebSocket per aggiornamenti live. Solo dati pubblici, nessuna API key e nessun ordine.
