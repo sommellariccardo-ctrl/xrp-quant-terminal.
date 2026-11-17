@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090d16">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="XRP Quant">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>XRP Quant Terminal</title>
+<style>
+:root{color-scheme:dark;--bg:#090d16;--panel:#111827;--panel2:#172235;--line:#263449;--muted:#8fa1b8;--text:#edf3fb;--green:#35d49a;--red:#ff667d;--amber:#f4bd55;--blue:#79aaff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#1a2b47 0,transparent 55%),var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 14px calc(22px + env(safe-area-inset-bottom))}
+.app{max-width:760px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;padding:16px 2px 18px}.brand{font-size:17px;font-weight:800;letter-spacing:.09em}.sub{color:var(--muted);font-size:10px;letter-spacing:.12em;margin-top:4px}.status{border:1px solid #725d30;background:#2b2415;color:var(--amber);padding:7px 10px;border-radius:99px;font-size:10px;font-weight:800;letter-spacing:.08em}
+.hero{background:linear-gradient(135deg,#182b46,#101a2b);border:1px solid #2a405d;border-radius:20px;padding:18px;margin-bottom:12px}.eyebrow{color:#9db1ca;font-size:10px;letter-spacing:.14em;font-weight:700}.balance{font-size:34px;font-weight:800;margin:7px 0 2px;letter-spacing:-.04em}.unit{color:var(--muted);font-size:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;min-width:0}.label{color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}.value{font-size:21px;font-weight:750;margin-top:7px}.small{font-size:12px;color:var(--muted);margin-top:4px}.green{color:var(--green)}.red{color:var(--red)}.amber{color:var(--amber)}
+.tabs{display:flex;gap:6px;background:#0e1522;border:1px solid var(--line);padding:5px;border-radius:14px;margin:14px 0}.tab{flex:1;border:0;border-radius:10px;background:transparent;color:var(--muted);padding:11px 5px;font-weight:700;font-size:12px}.tab.active{background:#263953;color:white}
+.section{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:10px}.section h2{font-size:13px;margin:0 0 13px;letter-spacing:.04em}.rows{display:grid;gap:0}.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #202c3e;font-size:13px}.row:last-child{border:0}.row span:first-child{color:var(--muted)}.scoregrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.score{padding:14px;background:var(--panel2);border-radius:13px}.score b{font-size:27px;display:block;margin-top:7px}.placeholder{color:var(--muted)}.notice{border:1px solid #66532c;background:#292313;color:#f4d99c;border-radius:13px;padding:12px;font-size:12px;line-height:1.45;margin:12px 0}
+.btn{width:100%;border:0;border-radius:13px;padding:14px;font-weight:800;letter-spacing:.05em;background:#263953;color:#fff;margin-top:8px}.btn:disabled{opacity:.45}.btn.danger{background:#3a1c29;border:1px solid #713346;color:#ff9aaa}.pill{font-size:10px;padding:5px 8px;border-radius:99px;background:#1d2b3d;color:#b9cbe0}.hidden{display:none}.foot{text-align:center;color:#63758d;font-size:10px;padding:14px}
+@media(min-width:600px){body{padding-left:24px;padding-right:24px}.balance{font-size:40px}}
+</style>
+</head>
+<body><main class="app">
+<header class="top"><div><div class="brand">XRP QUANT TERMINAL</div><div class="sub">BYBIT MAIN · UTA · XRPUSDT PERPETUAL</div></div><div class="status">● NON COLLEGATO</div></header>
+<section class="hero"><div class="eyebrow">CAPITALE DI TEST · VALORE DIMOSTRATIVO</div><div class="balance">5.00 <span style="font-size:15px;color:#a9bdd5">USDT</span></div><div class="unit">Nessun dato del conto è ancora collegato</div></section>
+<div class="grid">
+<div class="card"><div class="label">Posizioni aperte</div><div class="value">0</div><div class="small">Net exposure</div></div>
+<div class="card"><div class="label">P&amp;L sessione</div><div class="value placeholder">— USDT</div><div class="small">In attesa di connessione</div></div>
+</div>
+<nav class="tabs">
+<button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="signals">Signals</button><button class="tab" data-tab="risk">Risk</button><button class="tab" data-tab="history">History</button>
+</nav>
+<section id="overview" class="panel">
+<div class="section"><h2>MARKET SNAPSHOT <span class="pill">LIVE DATA NON ANCORA ATTIVI</span></h2><div class="rows">
+<div class="row"><span>XRPUSDT price</span><b class="placeholder">—</b></div><div class="row"><span>BTCUSDT · 15m trend</span><b class="placeholder">—</b></div><div class="row"><span>ATR · XRP 5m</span><b class="placeholder">—</b></div><div class="row"><span>Bid / Ask spread</span><b class="placeholder">—</b></div><div class="row"><span>Market regime</span><b class="placeholder">Not evaluated</b></div>
+</div></div>
+<div class="section"><h2>BOT CONTROL</h2><div class="row"><span>Execution engine</span><b class="amber">STOPPED</b></div><div class="row"><span>Mode</span><b>Simulation first</b></div><button class="btn" disabled>START ENGINE · NON DISPONIBILE</button><button class="btn danger" disabled>EMERGENCY STOP</button><div class="small">I comandi saranno abilitati solo dopo backend, controlli rischio e verifica ordini.</div></div>
+</section>
+<section id="signals" class="panel hidden"><div class="section"><h2>ADAPTIVE SIGNAL ENGINE</h2><div class="scoregrid"><div class="score"><span class="label">LONG SCORE</span><b class="green">—</b><span class="small">Confidence non calcolata</span></div><div class="score"><span class="label">SHORT SCORE</span><b class="red">—</b><span class="small">Confidence non calcolata</span></div></div><div class="rows" style="margin-top:12px"><div class="row"><span>EMA 9 / 21</span><b>—</b></div><div class="row"><span>RSI / MACD / ADX</span><b>—</b></div><div class="row"><span>Relative volume</span><b>—</b></div><div class="row"><span>Efficiency ratio</span><b>—</b></div><div class="row"><span>BTC directional filter</span><b>—</b></div><div class="row"><span>Adaptive threshold</span><b>—</b></div></div></div></section>
+<section id="risk" class="panel hidden"><div class="section"><h2>RISK MANAGEMENT</h2><div class="rows"><div class="row"><span>Reference capital</span><b>5 USDT</b></div><div class="row"><span>Target risk / trade</span><b>1% · 0.05 USDT</b></div><div class="row"><span>Max concurrent positions</span><b>1</b></div><div class="row"><span>Position mode</span><b>One-Way required</b></div><div class="row"><span>Stop-loss verification</span><b class="amber">Mandatory</b></div><div class="row"><span>Daily loss limit</span><b>To be configured</b></div><div class="row"><span>Leverage</span><b>Exchange filters required</b></div></div></div><div class="notice">Regola fondamentale: se la quantità minima Bybit non consente di rispettare il rischio massimo, il bot deve rifiutare il trade. Mai forzare la quantità minima e mai mediare una posizione in perdita.</div></section>
+<section id="history" class="panel hidden"><div class="section"><h2>TRADE LOG</h2><div class="placeholder" style="font-size:13px">Nessuna operazione registrata. Lo storico verrà alimentato dal motore e riconciliato con gli ordini Bybit.</div></div></section>
+<div class="notice"><b>PROTOTIPO LOCALE · NON COLLEGATO A BYBIT.</b><br>Questa schermata non legge il conto, non invia ordini e non contiene credenziali. La modalità reale resterà disabilitata fino all'implementazione del backend sicuro e dei controlli pre-trade.</div>
+<div class="foot">XRP QUANT TERMINAL · BUILD 0.1 · iPhone</div>
+</main>
+<script>
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('hidden',p.id!==b.dataset.tab));}));
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script></body></html>
