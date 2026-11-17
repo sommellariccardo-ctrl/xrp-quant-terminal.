@@ -1,1 +1,2 @@
 BUILD 0.5 — scoring sperimentale LONG/SHORT, predictability, soglie adattive 25/30/40 e contributi. Dati pubblici Bybit, nessun accesso privato e nessun ordine. Punteggi non sono probabilità e non sono validati: solo osservazione/ricerca. Sostituire i file nella root del repository.
+Build 0.5.1: fix elemento trend mancante nell'interfaccia; cache PWA aggiornata.
