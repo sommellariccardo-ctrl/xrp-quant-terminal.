@@ -1,8 +1,6 @@
-XRP Quant Terminal BUILD 0.6
-- Signal journal locale in localStorage, massimo 2.000 eventi.
-- Un evento per candela XRP 5m chiusa.
-- Varianti A (35/10), B (30/5), C adattiva (25/30/40, margine 5).
-- Valutazione forward a 5/10/15/30/60 minuti su prezzi di chiusura.
-- Esportazione CSV e cancellazione registro locale.
-LIMITI: statistiche lorde, senza fee/funding/spread/slippage; segnali euristici non validati; storage solo locale al browser/dispositivo, non sincronizzato e soggetto a cancellazione. Nessuna API privata e nessun ordine.
-Installazione: sostituire index.html e sw.js nella root GitHub Pages, commit e attendere deploy.
+XRP Quant Terminal BUILD 0.6.1
+Fix: journal individua la candela XRP appena confermata anche quando una nuova candela in formazione è già l'ultima dell'array.
+Calcolo del segnale sullo storico fino alla candela XRP chiusa. Preferisce candele BTC confermate quando disponibili.
+Storage locale massimo 2.000 eventi; varianti A/B/C; outcome forward a 5/10/15/30/60m su prezzi di chiusura.
+Limiti: outcome lordi senza fee/funding/spread/slippage; scoring euristico non validato; dati locali al dispositivo; nessun ordine e nessuna API privata.
+Sostituire index.html e sw.js nella root GitHub Pages.
