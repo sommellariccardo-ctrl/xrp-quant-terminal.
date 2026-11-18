@@ -13,7 +13,7 @@
 <div class="row"><span>Spread gate</span><b id="hybridSpread">—</b></div>
 <div class="row"><span>Persistenza trigger</span><b id="hybridPersistence">0 / 3</b></div>
 <div class="notice">Modalità C ibrida: preview intrabar; pre-trigger più severo (soglia adattiva +10, vantaggio direzionale ≥10), tre aggiornamenti kline consecutivi, BTC concorde e spread ≤15 bps. La chiusura della candela registra la conferma. Solo segnalazione: nessun ordine.</div>
-</div><div class="section"><h2>CONTRIBUTI AL PUNTEGGIO</h2><div class="row"><span>Trend EMA 9/21</span><b id="cTrend">—</b></div><div class="row"><span>Momentum · ROC 6</span><b id="cMomentum">—</b></div><div class="row"><span>RSI 14</span><b id="cRsi">—</b></div><div class="row"><span>Relative volume</span><b id="cVolume">—</b></div><div class="row"><span>BTC direction</span><b id="cBtc">—</b></div><div class="row"><span>Efficiency ratio</span><b id="cEr">—</b></div><div class="notice" id="signalReason">Motivazione in attesa dei dati.</div></div><div class="notice">BUILD 0.8.0: hybrid intrabar preview + close confirmation + Capital Manager / Fee Engine in simulation. Nessun ordine e nessuna API privata. I punteggi non sono probabilità e non sono validati per il trading reale.</div></section>
+</div><div class="section"><h2>CONTRIBUTI AL PUNTEGGIO</h2><div class="row"><span>Trend EMA 9/21</span><b id="cTrend">—</b></div><div class="row"><span>Momentum · ROC 6</span><b id="cMomentum">—</b></div><div class="row"><span>RSI 14</span><b id="cRsi">—</b></div><div class="row"><span>Relative volume</span><b id="cVolume">—</b></div><div class="row"><span>BTC direction</span><b id="cBtc">—</b></div><div class="row"><span>Efficiency ratio</span><b id="cEr">—</b></div><div class="notice" id="signalReason">Motivazione in attesa dei dati.</div></div><div class="notice">BUILD 0.8.1: hybrid intrabar preview + close confirmation + Capital Manager / Fee Engine in simulation. Nessun ordine e nessuna API privata. I punteggi non sono probabilità e non sono validati per il trading reale.</div></section>
 <section id="risk" class="panel hidden">
 <div class="section"><h2>CAPITAL MANAGER · DYNAMIC / COMPOUND / ADAPTIVE</h2>
 <div class="notice">Modalità simulazione. L'equity è inserita manualmente: il terminale pubblico non legge il saldo privato Bybit. In futuro il backend aggiornerà il valore dopo depositi, prelievi e P&L realizzati.</div>
@@ -56,7 +56,7 @@
 <div class="section"><button class="btn" id="exportLog">Esporta registro CSV</button><button class="btn" id="clearLog" style="background:#452330">Cancella registro locale</button></div>
 <div class="notice">BUILD 0.6: journal e valutazione forward dei segnali. Solo analisi; nessun collegamento privato Bybit e nessun ordine.</div>
 </section><span id="trend" hidden></span>
-<div class="foot">XRP QUANT TERMINAL · BUILD 0.8.0 · CAPITAL + FEE ENGINE</div></main>
+<div class="foot">XRP QUANT TERMINAL · BUILD 0.8.1 · AUTO-UPDATE PWA + CAPITAL + FEE ENGINE</div></main>
 <script>
 const $=x=>document.getElementById(x);let ws,rows=[],btcRows=[],lastTick=null,bid=0,ask=0,retry=1000;let hybridState={candle:0,side:'WAIT',count:0,armed:false,lastClosed:0};let currentSignal=null;
 function ema(a,p){let k=2/(p+1),v=a[0];for(let x of a.slice(1))v=x*k+v*(1-k);return v}
@@ -193,5 +193,26 @@ function saveCapital(){try{localStorage.setItem(CAP_KEY,JSON.stringify({equity:n
 ['equityInput','notionalInput','slippageInput','feeType'].forEach(id=>$(id).addEventListener('input',saveCapital));
 loadCapital();
 $('exportLog').onclick=exportJournal;$('clearLog').onclick=()=>{if(confirm('Cancellare definitivamente il registro segnali locale di questo dispositivo?')){signalLog=[];persistLog();renderJournal()}};renderJournal();document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('hidden',x.id!==b.dataset.tab))});async function bootstrap(){try{const [x,b]=await Promise.all([fetch('https://api.bybit.com/v5/market/kline?category=linear&symbol=XRPUSDT&interval=5&limit=200').then(r=>r.json()),fetch('https://api.bybit.com/v5/market/kline?category=linear&symbol=BTCUSDT&interval=15&limit=30').then(r=>r.json())]);if(x.retCode!==0||b.retCode!==0)throw Error('Bybit REST bootstrap error');rows=x.result.list.slice().reverse().map(k=>[+k[0],+k[0],+k[2],+k[3],+k[4],+k[5],true]);btcRows=b.result.list.slice().reverse().map(k=>[+k[0],+k[0],+k[2],+k[3],+k[4],+k[5],true]);if(rows.length)rows[rows.length-1][6]=false;if(btcRows.length)btcRows[btcRows.length-1][6]=false;lastLoggedCandleTime=rows.length>1?+rows[rows.length-2][0]:0;update()}catch(e){$('err').textContent='Storico iniziale non caricato: '+e.message+'; provo comunque lo streaming live.'}}
-bootstrap().finally(connect);if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+bootstrap().finally(connect);
+// PWA auto-update: check the deployed worker at startup and whenever the app
+// returns to the foreground. Keep localStorage (journal/settings) untouched.
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloadingForWorker = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (hadController && !reloadingForWorker) {
+      reloadingForWorker = true;
+      location.reload();
+    }
+  });
+  navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
+    .then(async (registration) => {
+      try { await registration.update(); } catch (e) {}
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') registration.update().catch(() => {});
+      });
+      window.addEventListener('focus', () => registration.update().catch(() => {}));
+    })
+    .catch((error) => console.warn('PWA update check failed:', error));
+}
 </script></body></html>

@@ -1,18 +1,19 @@
-XRP Quant Terminal BUILD 0.8.0 — CAPITAL MANAGER + FEE ENGINE (SIMULATION)
+XRP QUANT TERMINAL BUILD 0.8.1 — PWA AUTO-UPDATE
 
 Include:
-- Capital Manager: equity modificabile, allocazione dinamica 25%, reserve 75%, compounding rappresentato aggiornando l’equity con il saldo aggiornato.
-- Risk budget adattivo: 1% della trading allocation, ridotto in base all’ATR 5m (fattori 1.00x / 0.75x / 0.50x). Soglie sperimentali e configurazione da validare; non sono una raccomandazione di rischio.
-- Fee Engine VIP 0: Maker 0,020%, Taker 0,055%, stima round-trip, spread dal book pubblico e slippage configurabile.
-- Break-even stimato in percentuale e basis point.
-- Parametri simulazione salvati nel localStorage del browser/dispositivo.
+- Tutte le funzioni della build 0.8.0 (Adaptive Signal Engine, Capital Manager e Fee Engine in simulazione).
+- Service Worker aggiornato: skipWaiting + clients.claim per attivare la nuova versione senza richiedere la chiusura manuale delle schede.
+- Controllo aggiornamenti all'avvio e quando la PWA/Safari torna in primo piano.
+- Cache versionata xrp-quant-v081 e strategia network-first: online, la navigazione recupera la versione pubblicata su GitHub Pages; offline usa la copia locale.
+- Pulizia limitata alle vecchie cache con prefisso xrp-quant-. Il localStorage (journal e impostazioni) NON viene cancellato.
 
-LIMITI IMPORTANTI:
-- Il terminale resta solo pubblico: non legge saldo, commissioni personalizzate, funding o posizioni private. L’equity deve essere aggiornata manualmente.
-- Il funding è escluso dal calcolo finché non sarà integrato. Il costo spread/slippage è una stima e può essere parziale se il book non è disponibile.
-- Nessuna API Key, nessun ordine reale, nessuna esecuzione automatica.
-- Il risk budget è una regola di simulazione: non è ancora collegato a stop distance, min qty, leva o ordine.
-- Non usare per trading reale. Prima di abilitare ordini serviranno backend sicuro, riconciliazione conto, validazione strumenti, stop exchange-side, kill switch e test estesi.
+INSTALLAZIONE AGGIORNAMENTO:
+1. Nel repository GitHub sostituire SOLO index.html e sw.js nella root con quelli di questo pacchetto.
+2. Commit e attendere GitHub Actions / GitHub Pages completato.
+3. Aprire normalmente l'app già installata oppure il link GitHub Pages. All'avvio viene verificato il nuovo Service Worker; quando si attiva, la pagina si ricarica una volta.
+4. Per verificare la build, controllare il footer BUILD 0.8.1.
 
-INSTALLAZIONE:
-Sostituire index.html e sw.js nella root GitHub Pages, commit e attendere Actions verdi. Aprire il sito con ?v=080.
+NOTA:
+- L'aggiornamento automatico richiede che il dispositivo sia online e che l'app venga aperta o riportata in primo piano. Una PWA chiusa/non in esecuzione non può aggiornarsi istantaneamente in background.
+- Non disinstallare la PWA e non cancellare i dati del sito.
+- Resta una build di simulazione: nessun accesso privato Bybit e nessun ordine reale.
