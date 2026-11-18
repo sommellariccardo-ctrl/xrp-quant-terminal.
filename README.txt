@@ -1,19 +1,18 @@
-XRP Quant Terminal BUILD 0.7.0 — HYBRID SIGNAL GATE
+XRP Quant Terminal BUILD 0.8.0 — CAPITAL MANAGER + FEE ENGINE (SIMULATION)
 
-Cosa cambia:
-- Preview intrabar: mostra il lato candidato durante la formazione della candela XRP 5m.
-- Early trigger sperimentale: richiede soglia adattiva +10, margine direzionale >=10, BTC 15m concorde, spread <=15 bps e 3 aggiornamenti consecutivi del flusso kline XRP.
-- Il contatore di persistenza avanza solo sugli eventi kline XRP, non su ticker/orderbook.
-- Alla conferma della candela viene mostrato il lato calcolato alla chiusura.
-- Il trigger si azzera a ogni nuova candela; non viene mantenuto se le condizioni decadono.
+Include:
+- Capital Manager: equity modificabile, allocazione dinamica 25%, reserve 75%, compounding rappresentato aggiornando l’equity con il saldo aggiornato.
+- Risk budget adattivo: 1% della trading allocation, ridotto in base all’ATR 5m (fattori 1.00x / 0.75x / 0.50x). Soglie sperimentali e configurazione da validare; non sono una raccomandazione di rischio.
+- Fee Engine VIP 0: Maker 0,020%, Taker 0,055%, stima round-trip, spread dal book pubblico e slippage configurabile.
+- Break-even stimato in percentuale e basis point.
+- Parametri simulazione salvati nel localStorage del browser/dispositivo.
 
-IMPORTANTE:
-- È solo un motore di segnalazione/validazione. NON invia ordini e NON contiene API private.
-- Tre aggiornamenti kline non equivalgono a tre secondi: sono tre messaggi WebSocket distinti.
-- La logica intrabar è sperimentale e non è stata validata su dati storici; può oscillare durante la candela.
-- Il gate spread usa il best bid/ask del book pubblico e blocca se il book non è disponibile.
-- Nessuna garanzia di latenza o riempimento. Il browser resta un processo non garantito e può sospendersi.
-- Non usare il trigger come autorizzazione a operare manualmente o automaticamente con denaro reale.
+LIMITI IMPORTANTI:
+- Il terminale resta solo pubblico: non legge saldo, commissioni personalizzate, funding o posizioni private. L’equity deve essere aggiornata manualmente.
+- Il funding è escluso dal calcolo finché non sarà integrato. Il costo spread/slippage è una stima e può essere parziale se il book non è disponibile.
+- Nessuna API Key, nessun ordine reale, nessuna esecuzione automatica.
+- Il risk budget è una regola di simulazione: non è ancora collegato a stop distance, min qty, leva o ordine.
+- Non usare per trading reale. Prima di abilitare ordini serviranno backend sicuro, riconciliazione conto, validazione strumenti, stop exchange-side, kill switch e test estesi.
 
-Installazione:
-Sostituire index.html e sw.js nella root del repository GitHub Pages; commit; attendere il deploy; aprire il sito con ?v=070.
+INSTALLAZIONE:
+Sostituire index.html e sw.js nella root GitHub Pages, commit e attendere Actions verdi. Aprire il sito con ?v=080.
