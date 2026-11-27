@@ -1,5 +1,5 @@
-/* XRP Quant Terminal PWA Service Worker — build 0.9.2 */
-const CACHE_NAME = 'xrp-quant-v092';
+/* XRP Quant Terminal PWA Service Worker — build 0.9.3 */
+const CACHE_NAME = 'xrp-quant-v093';
 const CACHE_PREFIX = 'xrp-quant-';
 const BASE = self.registration.scope;
 const APP_FILES = [

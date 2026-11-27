@@ -1,7 +1,7 @@
 /*
  * XRP Quant Terminal — Operator Candlestick Cockpit
  * Native Canvas renderer + public Bybit V5 market data.
- * Operator annotations are research labels only; they never authorize execution.
+ * Operator annotations are machine-readable context labels; explicit approval is offline-only and never authorizes execution.
  */
 (function () {
   'use strict';
@@ -26,6 +26,7 @@
     panOffset: 0,
     drawMode: 'cursor',
     annotations: [],
+    tradeOverlay: null,
     crosshair: null,
     drag: null,
     pendingTrendAnchor: null,
@@ -258,6 +259,9 @@
       ctx.fillText(timeLabel(data[j].time, state.activeTf), x, L.volumeBottom + 9);
     }
 
+    // Active paper position is a separate overlay, not an operator drawing or strategy signal.
+    if (state.tradeOverlay) drawTradeOverlay(ctx, state.tradeOverlay, L, y);
+
     // Operator drawings are time/price anchored and can be inspected on any timeframe.
     state.annotations.forEach(a => drawAnnotation(ctx, a, arr, start, end, L, y, timeToX));
     if (state.pendingTrendAnchor && state.crosshair && state.drawMode === 'trendline') {
@@ -278,6 +282,31 @@
     const last = data[data.length - 1];
     const selected = state.crosshair ? candleAtX(state.crosshair.x, arr, start, end, L) : last;
     updateOhlc(selected || last);
+  }
+
+
+  function drawTradeOverlay(ctx, trade, L, y) {
+    const lines = [
+      { key: 'entry', label: `${trade.side} ENTRY`, color: COLORS.blue, dash: [] },
+      { key: 'stop', label: 'STOP LOSS', color: COLORS.red, dash: [6, 4] },
+      { key: 'target', label: 'TAKE PROFIT', color: COLORS.green, dash: [6, 4] }
+    ];
+    ctx.save();
+    ctx.font = 'bold 10px -apple-system, sans-serif';
+    lines.forEach(line => {
+      const value = Number(trade[line.key]);
+      if (!(Number.isFinite(value) && value > 0)) return;
+      const py = y(value);
+      if (py < L.top || py > L.bottom) return;
+      ctx.strokeStyle = line.color; ctx.lineWidth = line.key === 'entry' ? 1.7 : 1.2;
+      ctx.setLineDash(line.dash); ctx.beginPath(); ctx.moveTo(L.left, py); ctx.lineTo(L.right, py); ctx.stroke(); ctx.setLineDash([]);
+      const label = `${line.label} ${value.toFixed(5)}`;
+      const width = ctx.measureText(label).width + 12;
+      ctx.fillStyle = '#101a2a'; ctx.fillRect(Math.max(L.left, L.right - width), py - 9, width, 18);
+      ctx.fillStyle = line.color; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillText(label, L.right - 6, py);
+    });
+    ctx.restore();
   }
 
   function drawAnnotation(ctx, a, arr, start, end, L, y, timeToX) {
@@ -490,8 +519,22 @@
       meta.textContent = `${tfLabel(a.timeframe)} · ${a.anchors.map(p => Number(p.price).toFixed(5)).join(' → ')} · ${new Date(a.created_at).toLocaleString('it-IT')}`;
       left.append(title, meta);
       if (a.note) { const note = document.createElement('div'); note.className = 'muted'; note.textContent = a.note; left.appendChild(note); }
+      const actions = document.createElement('div'); actions.className = 'annotation-actions';
+      const status = document.createElement('div'); status.className = 'muted';
+      status.textContent = a.machineSubmitted ? (a.trainingStatus === 'APPROVED_FOR_OFFLINE_VALIDATION' ? 'INVIATA · APPROVATA PER TEST OFFLINE' : a.trainingStatus === 'EXCLUDED' ? 'INVIATA · ESCLUSA DAL TRAINING' : 'CONTESTO INVIATO AD AEE') : 'NON ANCORA INVIATA';
+      left.appendChild(status);
+      if (!a.machineSubmitted) {
+        const send = document.createElement('button'); send.type = 'button'; send.textContent = 'Invia ad AEE';
+        send.addEventListener('click', () => sendAnnotationToMachine(a.annotation_id)); actions.appendChild(send);
+      } else if (a.trainingStatus === 'PENDING_OPERATOR_APPROVAL' || !a.trainingStatus) {
+        const approve = document.createElement('button'); approve.type = 'button'; approve.textContent = 'Approva per test offline';
+        approve.addEventListener('click', () => approveAnnotationForLearning(a.annotation_id)); actions.appendChild(approve);
+        const exclude = document.createElement('button'); exclude.type = 'button'; exclude.textContent = 'Non usare';
+        exclude.addEventListener('click', () => excludeAnnotationFromLearning(a.annotation_id)); actions.appendChild(exclude);
+      }
       const del = document.createElement('button'); del.type = 'button'; del.textContent = 'Rimuovi'; del.addEventListener('click', () => removeAnnotation(a.annotation_id));
-      row.append(left, del); list.appendChild(row);
+      actions.appendChild(del);
+      row.append(left, actions); list.appendChild(row);
     });
   }
 
@@ -500,11 +543,62 @@
     persistAnnotations(); renderAnnotationList(); scheduleRender();
   }
 
+  async function sendAnnotationToMachine(id) {
+    const annotation = state.annotations.find(a => a.annotation_id === id);
+    if (!annotation) return;
+    if (annotation.machineSubmitted) return;
+    if (!window.CockpitCore || typeof window.CockpitCore.registerOperatorStructure !== 'function') {
+      if ($('chartDrawingStatus')) $('chartDrawingStatus').textContent = 'Cockpit Core non disponibile: disegno non inviato.';
+      return;
+    }
+    try {
+      const record = await window.CockpitCore.registerOperatorStructure(annotation);
+      annotation.machineSubmitted = true;
+      annotation.machineRecordId = record.annotationId;
+      annotation.machineSubmittedAt = new Date(record.receivedAt).toISOString();
+      annotation.trainingStatus = record.trainingStatus;
+      annotation.decision_intent = 'MACHINE_CONTEXT_REFERENCE_ONLY';
+      annotation.execution_authorized = false;
+      persistAnnotations(); renderAnnotationList(); scheduleRender();
+      if ($('chartDrawingStatus')) $('chartDrawingStatus').textContent = 'Disegno inviato ad AEE e registrato come contesto operatore. Non è una regola attiva.';
+    } catch (error) {
+      if ($('chartDrawingStatus')) $('chartDrawingStatus').textContent = 'Invio ad AEE non riuscito: ' + error.message;
+    }
+  }
+
+  async function approveAnnotationForLearning(id) {
+    const annotation = state.annotations.find(a => a.annotation_id === id);
+    if (!annotation || !annotation.machineSubmitted) return;
+    if (!window.confirm('Confermi l’uso di questo disegno come esempio per test e validazione OFFLINE? Non aggiornerà il modello live.')) return;
+    try {
+      const record = await window.CockpitCore.approveOperatorStructure(id);
+      annotation.trainingStatus = record.trainingStatus;
+      annotation.trainingApprovedAt = new Date(record.approvedAt).toISOString();
+      persistAnnotations(); renderAnnotationList();
+      if ($('chartDrawingStatus')) $('chartDrawingStatus').textContent = 'Esempio approvato per replay/validazione offline. Nessun apprendimento live.';
+    } catch (error) {
+      if ($('chartDrawingStatus')) $('chartDrawingStatus').textContent = 'Approvazione non riuscita: ' + error.message;
+    }
+  }
+
+  async function excludeAnnotationFromLearning(id) {
+    const annotation = state.annotations.find(a => a.annotation_id === id);
+    if (!annotation || !annotation.machineSubmitted) return;
+    try {
+      const record = await window.CockpitCore.excludeOperatorStructure(id);
+      annotation.trainingStatus = record.trainingStatus;
+      persistAnnotations(); renderAnnotationList();
+      if ($('chartDrawingStatus')) $('chartDrawingStatus').textContent = 'Disegno mantenuto come contesto, escluso dagli esempi di apprendimento.';
+    } catch (error) {
+      if ($('chartDrawingStatus')) $('chartDrawingStatus').textContent = 'Esclusione non riuscita: ' + error.message;
+    }
+  }
+
   function exportAnnotations() {
     const payload = {
       schema: SCHEMA, schema_version: 1, exported_at: new Date().toISOString(),
       market: { exchange: 'BYBIT', category: CATEGORY, symbol: SYMBOL },
-      safety: { reference_only: true, execution_authorized: false, training_status: 'UNVALIDATED' },
+      safety: { reference_only: true, execution_authorized: false, training_status: 'OPERATOR_CONTROLLED_OFFLINE_ONLY' },
       semantics: {
         ENTRY_MARKER: 'Operator-labelled potential entry location; not an order or strategy signal.',
         TRENDLINE: 'Two time/price anchors representing a manually drawn structural line.',
@@ -525,7 +619,17 @@
       throw new Error('Formato non valido: atteso ' + SCHEMA + ' per ' + SYMBOL);
     }
     const existing = new Set(state.annotations.map(a => a.annotation_id));
-    const valid = payload.annotations.filter(validateAnnotation).filter(a => !existing.has(a.annotation_id)).map(a => ({ ...a, imported: true, imported_at: new Date().toISOString(), execution_authorized: false }));
+    const valid = payload.annotations.filter(validateAnnotation).filter(a => !existing.has(a.annotation_id)).map(a => ({
+      ...a,
+      imported: true,
+      imported_at: new Date().toISOString(),
+      execution_authorized: false,
+      machineSubmitted: false,
+      machineRecordId: null,
+      machineSubmittedAt: null,
+      trainingStatus: 'NOT_SUBMITTED',
+      trainingApprovedAt: null
+    }));
     state.annotations = [...state.annotations, ...valid].slice(-1000);
     persistAnnotations(); renderAnnotationList(); scheduleRender();
     if ($('chartDrawingStatus')) $('chartDrawingStatus').textContent = `Importate ${valid.length} annotazioni valide. Restano etichette manuali non validate.`;
@@ -577,5 +681,17 @@
     setTimeout(resize, 40);
   }
 
-  window.ChartCockpit = { init, setCandles, update, loadHistory, resize, exportAnnotations, getAnnotations: () => state.annotations.slice(), getCandles: (tf) => (state.candles[String(tf)] || []).map(c => ({ ...c })), setStatus, schema: SCHEMA };
+  function setTradeOverlay(trade) {
+    if (!trade) state.tradeOverlay = null;
+    else {
+      const side = String(trade.side || '').toUpperCase();
+      const values = ['entry', 'stop', 'target'].map(k => Number(trade[k]));
+      if ((side === 'LONG' || side === 'SHORT') && values.every(v => Number.isFinite(v) && v > 0)) {
+        state.tradeOverlay = { side, entry: values[0], stop: values[1], target: values[2], origin: String(trade.origin || 'BOT_SIGNAL_C'), remaining: Number(trade.remaining) };
+      } else state.tradeOverlay = null;
+    }
+    scheduleRender();
+  }
+
+  window.ChartCockpit = { init, setCandles, update, loadHistory, resize, setTradeOverlay, exportAnnotations, sendAnnotationToMachine, approveAnnotationForLearning, excludeAnnotationFromLearning, getAnnotations: () => state.annotations.map(a => ({ ...a })), getCandles: (tf) => (state.candles[String(tf)] || []).map(c => ({ ...c })), setStatus, schema: SCHEMA };
 })();
