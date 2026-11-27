@@ -1,9 +1,9 @@
 <!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#090d16"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="XRP Quant"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png"><title>XRP Quant Terminal</title><style>
-:root{color-scheme:dark;--bg:#090d16;--p:#111827;--line:#263449;--muted:#8fa1b8;--txt:#edf3fb;--g:#35d49a;--r:#ff667d;--a:#f4bd55}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:15px -apple-system,sans-serif;padding:env(safe-area-inset-top) 14px 24px}.app{max-width:760px;margin:auto}.top,.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.top{padding:18px 2px}.brand{font-weight:800;letter-spacing:.08em}.sub,.small,.label{color:var(--muted);font-size:11px}.status{color:var(--g);font-size:11px}.hero,.card,.section{background:var(--p);border:1px solid var(--line);border-radius:16px;padding:15px;margin:10px 0}.hero{background:linear-gradient(135deg,#182b46,#101a2b)}.price{font-size:32px;font-weight:800;margin:8px 0}.grid,.scores{display:grid;grid-template-columns:1fr 1fr;gap:10px}.value{font-size:20px;font-weight:750;margin-top:7px}.tabs{display:flex;gap:5px;margin:14px 0}.tab{flex:1;padding:11px 4px;border:0;border-radius:10px;background:#172235;color:var(--muted)}.tab.active{background:#345071;color:white}.section h2{font-size:13px;margin:0 0 10px}.row{padding:10px 0;border-bottom:1px solid #202c3e;font-size:13px}.row:last-child{border:0}.row span:first-child{color:var(--muted)}.hidden{display:none}.g{color:var(--g)}.r{color:var(--r)}.a{color:var(--a)}.notice{padding:12px;background:#292313;border:1px solid #66532c;border-radius:12px;color:#f4d99c;font-size:12px;line-height:1.45}.chart{width:100%;height:110px;background:#0d1420;border-radius:10px}.foot{text-align:center;color:#63758d;font-size:10px;padding:14px}
+:root{color-scheme:dark;--bg:#090d16;--p:#111827;--line:#263449;--muted:#8fa1b8;--txt:#edf3fb;--g:#35d49a;--r:#ff667d;--a:#f4bd55}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:15px -apple-system,sans-serif;padding:env(safe-area-inset-top) 14px 24px}.app{max-width:760px;margin:auto}.top,.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.top{padding:18px 2px}.brand{font-weight:800;letter-spacing:.08em}.sub,.small,.label{color:var(--muted);font-size:11px}.status{color:var(--g);font-size:11px}.hero,.card,.section{background:var(--p);border:1px solid var(--line);border-radius:16px;padding:15px;margin:10px 0}.hero{background:linear-gradient(135deg,#182b46,#101a2b)}.price{font-size:32px;font-weight:800;margin:8px 0}.grid,.scores{display:grid;grid-template-columns:1fr 1fr;gap:10px}.value{font-size:20px;font-weight:750;margin-top:7px}.tabs{display:flex;gap:5px;margin:14px 0}.tab{flex:1;padding:11px 4px;border:0;border-radius:10px;background:#172235;color:var(--muted)}.tab.active{background:#345071;color:white}.section h2{font-size:13px;margin:0 0 10px}.row{padding:10px 0;border-bottom:1px solid #202c3e;font-size:13px}.row:last-child{border:0}.row span:first-child{color:var(--muted)}.hidden{display:none}.g{color:var(--g)}.r{color:var(--r)}.a{color:var(--a)}.notice{padding:12px;background:#292313;border:1px solid #66532c;border-radius:12px;color:#f4d99c;font-size:12px;line-height:1.45}.chart{width:100%;height:110px;background:#0d1420;border-radius:10px}.audit-list{display:grid;gap:8px}.audit-item{padding:10px;border:1px solid #263449;border-radius:10px;background:#0d1420;font-size:12px}.audit-item b{display:block;margin-bottom:4px}.form-control{width:100%;background:#0b1320;color:#fff;border:1px solid #40516a;border-radius:8px;padding:9px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.audit-actions{display:flex;gap:8px;flex-wrap:wrap}.audit-actions button{flex:1;min-width:140px}.foot{text-align:center;color:#63758d;font-size:10px;padding:14px}
 </style></head><body><main class="app"><header class="top"><div><div class="brand">XRP QUANT TERMINAL</div><div class="sub">BYBIT PUBLIC WEBSOCKET · XRPUSDT</div></div><b class="status" id="conn">● CONNECTING</b></header>
 <div class="hero"><div class="label">XRPUSDT PERPETUAL · LAST PRICE</div><div class="price" id="price">— USDT</div><div class="small" id="updated">Connessione WebSocket in corso…</div></div>
 <div class="grid"><div class="card"><div class="label">24H CHANGE</div><div class="value" id="change">—</div></div><div class="card"><div class="label">24H TURNOVER</div><div class="value" id="turnover">—</div></div></div>
-<nav class="tabs"><button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="signals">Signals</button><button class="tab" data-tab="risk">Risk</button><button class="tab" data-tab="history">History</button></nav>
+<nav class="tabs"><button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="signals">Signals</button><button class="tab" data-tab="risk">Risk</button><button class="tab" data-tab="history">History</button><button class="tab" data-tab="cockpit">Cockpit</button></nav>
 <section id="overview" class="panel"><div class="section"><h2>MARKET SNAPSHOT · STREAMING</h2><div class="row"><span>EMA 9</span><b id="ema9">—</b></div><div class="row"><span>EMA 21</span><b id="ema21">—</b></div><div class="row"><span>RSI 14</span><b id="rsi">—</b></div><div class="row"><span>ATR 14 %</span><b id="atr">—</b></div><div class="row"><span>BTCUSDT 15m</span><b id="btc">—</b></div><div class="row"><span>Spread</span><b id="spread">—</b></div><p class="small">Aggiornamenti push dal WebSocket pubblico Bybit; nessun polling ogni secondo.</p><div id="err" class="a"></div></div><div class="section"><h2>XRP PRICE HISTORY · 60 CANDLE</h2><canvas id="chart" class="chart" width="600" height="180"></canvas></div><div class="notice">Solo dati pubblici. Nessun accesso al conto e nessun ordine.</div></section>
 <section id="signals" class="panel hidden"><div class="section"><h2>ADAPTIVE SIGNAL ENGINE · XRP 5m</h2><div class="scores"><div class="card"><div class="label">LONG SCORE</div><div class="value g" id="longScore">—</div><div class="small" id="longState">In attesa dati</div></div><div class="card"><div class="label">SHORT SCORE</div><div class="value r" id="shortScore">—</div><div class="small" id="shortState">In attesa dati</div></div></div><div class="row"><span>Predictability</span><b id="predictability">—</b></div><div class="row"><span>Regime / soglia adattiva</span><b id="regime">—</b></div><div class="row"><span>Segnale candidato</span><b id="candidate" class="a">WAIT</b></div><div class="row"><span>BTC filter 15m</span><b id="btc2">—</b></div></div>
 <div class="section"><h2>HYBRID ENTRY GATE · PREVIEW / CONFIRM</h2>
@@ -17,7 +17,7 @@
 <div class="section"><h2>ADAPTIVE EXIT ENGINE · SHADOW MODE</h2>
 <div class="notice">Simulazione automatica sulle conferme della variante C. Nessun ordine reale. Il motore distingue Momentum Exit e Natural Swing Exit, protegge il profitto con trailing stop e registra chiusure parziali e segnali opposti.</div>
 <div class="row"><span>Shadow position</span><b id="exitPositionState" class="a">IN ATTESA</b></div>
-<div class="row"><span>Direzione / ingresso</span><b id="exitEntry">—</b></div>
+<div class="row"><span>Direzione / ingresso</span><b id="exitEntry">—</b></div><div class="row"><span>Leva / notional</span><b id="exitLeverage">—</b></div><div class="row"><span>Margine usato / rischio stop</span><b id="exitMarginRisk">—</b></div>
 <div class="row"><span>Modalità di gestione</span><b id="exitMode">—</b></div>
 <div class="row"><span>Target swing</span><b id="exitTarget">—</b></div>
 <div class="row"><span>Stop dinamico</span><b id="exitStop">—</b></div>
@@ -31,7 +31,7 @@
 <div class="row"><span>Chiusura su soglia opposta</span><b>50% residuo · poi chiusura completa alla conferma</b></div>
 <div class="notice">Regole iniziali sperimentali: stop iniziale 1,5 ATR; trailing più largo in momentum e più stretto in swing; presa parziale al raggiungimento della zona target; riduzione su soglia opposta in avvicinamento e chiusura del residuo su conferma. Parametri da validare, non ottimizzati.</div>
 </div>
-<div class="notice">BUILD 0.9.0: Adaptive Exit Engine Shadow Mode + hybrid signals + Capital Manager / Fee Engine in simulation. Nessun ordine e nessuna API privata. I punteggi non sono probabilità e non sono validati per il trading reale.</div></section>
+<div class="notice">BUILD 0.9.1: Shadow Cockpit + Leverage-Aware Risk Gate + IndexedDB audit journal + operator feedback + Adaptive Exit Engine. Nessun ordine e nessuna API privata. I punteggi non sono probabilità e non sono validati per il trading reale.</div></section>
 <section id="risk" class="panel hidden">
 <div class="section"><h2>CAPITAL MANAGER · DYNAMIC / COMPOUND / ADAPTIVE</h2>
 <div class="notice">Modalità simulazione. L'equity è inserita manualmente: il terminale pubblico non legge il saldo privato Bybit. In futuro il backend aggiornerà il valore dopo depositi, prelievi e P&L realizzati.</div>
@@ -42,6 +42,19 @@
 <div class="row"><span>Rischio base / trade</span><b>1% dell'allocazione</b></div>
 <div class="row"><span>Fattore volatilità ATR</span><b id="volFactor">In attesa dati</b></div>
 <div class="row"><span>Budget rischio adattivo</span><b id="riskBudget">—</b></div>
+<div class="section"><h2>LEVERAGE-AWARE RISK GATE · SHADOW</h2>
+<div class="row"><label for="leverageInput">Leva richiesta</label><select id="leverageInput" class="form-control" style="max-width:125px"><option>10</option><option>20</option><option>30</option><option>40</option><option selected>50</option><option>60</option><option>70</option><option>80</option><option>90</option><option>100</option></select></div>
+<div class="row"><span>Leva massima da volatilità</span><b id="leverageVolCap">—</b></div>
+<div class="row"><span>Leva selezionata dal gate</span><b id="leverageSelected">—</b></div>
+<div class="row"><span>Rischio su margine alla stop</span><b id="leverageRiskPct">—</b></div>
+<div class="row"><span>Cap rischio per fascia leva</span><b id="leverageRiskCap">—</b></div>
+<div class="row"><span>Margine stimato impiegato</span><b id="leverageMargin">—</b></div>
+<div class="row"><span>Notional stimato</span><b id="leverageNotional">—</b></div>
+<div class="row"><span>Perdita stimata alla stop</span><b id="leverageLoss">—</b></div>
+<div class="row"><label for="fundingBufferInput">Buffer funding per trade (bps)</label><input id="fundingBufferInput" class="form-control" style="max-width:125px" type="number" min="0" step="0.1" value="2"></div>
+<div class="row"><span>Gate leva</span><b id="leverageGateStatus" class="a">IN ATTESA DATI</b></div>
+<div class="notice" id="leverageGateReason">Il calcolo attende ATR chiuso e spread bid/ask. La leva non aumenta il rischio ammesso: determina il margine e il notional compatibili con il budget. Il modello stop di questa build resta 1,5 ATR, non uno stop strutturale AEE. Le soglie di volatilità sono sperimentali.</div>
+</div>
 <div class="row"><span>Posizioni simultanee</span><b>1 · One-Way</b></div>
 <div class="notice">Il budget di rischio è distinto dal margine e dal notional. Se quantità minima, stop o limiti del contratto non rispettano il budget, l'Execution Engine dovrà bloccare l'ordine. Nessuna martingala, mediazione o recupero perdite.</div>
 </div>
@@ -55,10 +68,10 @@
 <div class="row"><span>Spread + slippage stimati</span><b id="executionCost">—</b></div>
 <div class="row"><span>Costo totale stimato</span><b id="totalCost">—</b></div>
 <div class="row"><span>Break-even stimato</span><b id="breakEven">—</b></div>
-<div class="row"><span>Funding</span><b class="a">Escluso · intervallo da verificare</b></div>
-<div class="notice">Stima didattica pre-trade, non un preventivo né un'autorizzazione all'ordine. Il calcolo usa la stessa fee ipotizzata su apertura e chiusura. Il Maker non è garantito: una limit marketable può essere Taker. Funding, impatto di mercato, commissioni effettive e minimi del contratto non sono ancora acquisiti.</div>
+<div class="row"><span>Funding live</span><b class="a">NON ACQUISITO · buffer manuale incluso nel risk gate</b></div><div class="row"><span>Buffer funding assunto</span><b id="fundingCost">—</b></div>
+<div class="notice">Stima shadow pre-trade, non un preventivo né un'autorizzazione all'ordine. Il calcolo usa la fee ipotizzata su apertura e chiusura; il buffer funding è un'assunzione manuale, non un tasso live. Il Maker non è garantito: una limit marketable può essere Taker. Funding effettivo, impatto di mercato e minimi del contratto non sono ancora acquisiti.</div>
 </div>
-<div class="section"><h2>EXECUTION SAFETY · NON ANCORA ATTIVO</h2><div class="row"><span>API private / saldo live</span><b class="a">Non collegati</b></div><div class="row"><span>Ordini reali</span><b class="a">Disabilitati</b></div><div class="row"><span>Stop exchange-side</span><b class="a">Da implementare e testare</b></div><div class="row"><span>Min qty / tick / leverage</span><b>Da leggere da Bybit</b></div></div>
+<div class="section"><h2>EXECUTION SAFETY · NON ANCORA ATTIVO</h2><div class="row"><span>API private / saldo live</span><b class="a">Non collegati</b></div><div class="row"><span>Ordini reali</span><b class="a">Disabilitati</b></div><div class="row"><span>Stop exchange-side</span><b class="a">Da implementare e testare</b></div><div class="row"><span>Min qty / tick / leverage</span><b>Da leggere da Bybit</b></div><div class="row"><span>Liquidazione Cross</span><b class="a">Non verificata · equity/MML non collegate</b></div></div>
 </section>
 <section id="history" class="panel hidden">
 <div class="section"><h2>SIGNAL JOURNAL · SOLO DISPOSITIVO</h2>
@@ -72,9 +85,27 @@
 <div class="section"><h2>STRATEGY COMPARATOR</h2><div class="row"><span>A · soglia 35 / margine 10</span><b id="stratA">—</b></div><div class="row"><span>B · soglia 30 / margine 5</span><b id="stratB">—</b></div><div class="row"><span>C · adattiva 25/30/40 / margine 5</span><b id="stratC">—</b></div>
 <p class="small">Confronto sperimentale sullo stesso flusso di candele. Nessun ordine simulato; nessun capitale ipotetico.</p></div>
 <div class="section"><button class="btn" id="exportLog">Esporta registro CSV</button><button class="btn" id="clearLog" style="background:#452330">Cancella registro locale</button></div>
-<div class="notice">BUILD 0.6: journal e valutazione forward dei segnali. Solo analisi; nessun collegamento privato Bybit e nessun ordine.</div>
+<div class="notice">Signal Journal storico: risultati forward lordi. Gli esiti vengono maturati solo quando la candela futura è chiusa.</div>
+</section>
+<section id="cockpit" class="panel hidden">
+<div class="section"><h2>TRADING COCKPIT · DECISION AUDIT</h2>
+<div class="grid"><div class="card"><div class="label">Eventi registrati</div><div class="value" id="auditEventCount">0</div></div><div class="card"><div class="label">Correzioni operatore</div><div class="value" id="auditFeedbackCount">0</div></div></div>
+<div class="row"><span>Archivio audit</span><b id="auditStorageState" class="a">IN AVVIO</b></div>
+<div class="small">Registro locale IndexedDB di questo browser/dispositivo. Continua a raccogliere solo mentre la PWA resta attiva; non è un backend e non sincronizza tra dispositivi. Esporta regolarmente il journal JSONL.</div>
+</div>
+<div class="section"><h2>OPERATOR FEEDBACK · LEARNING LAB</h2>
+<div class="row"><label for="feedbackEvent">Decisione da correggere</label></div><select id="feedbackEvent" class="form-control"><option value="">Nessun evento specifico / feedback generale</option></select>
+<div class="form-grid" style="margin-top:8px"><div><label class="small" for="feedbackCategory">Categoria</label><select id="feedbackCategory" class="form-control"><option value="entry_location">entry_location</option><option value="structure">structure</option><option value="direction">direction</option><option value="trigger">trigger</option><option value="timing">timing</option><option value="risk_management">risk_management</option><option value="context">context</option><option value="missed_opportunity">missed_opportunity</option></select></div><div><label class="small" for="feedbackExpectedAction">Azione attesa</label><select id="feedbackExpectedAction" class="form-control"><option value="WAIT_FOR_SUPPORT_PULLBACK">WAIT_FOR_SUPPORT_PULLBACK</option><option value="WAIT_FOR_RESISTANCE_REJECTION">WAIT_FOR_RESISTANCE_REJECTION</option><option value="RECLASSIFY_STRUCTURE">RECLASSIFY_STRUCTURE</option><option value="REVERSE_DIRECTION">REVERSE_DIRECTION</option><option value="REJECT_TRIGGER">REJECT_TRIGGER</option><option value="REDUCE_RISK_OR_LEVERAGE">REDUCE_RISK_OR_LEVERAGE</option><option value="NO_TRADE">NO_TRADE</option><option value="REVIEW_CONTEXT">REVIEW_CONTEXT</option></select></div></div>
+<div style="margin-top:8px"><label class="small" for="feedbackReason">Motivazione dell'operatore</label><textarea id="feedbackReason" class="form-control" rows="3" placeholder="Descrivi cosa il bot ha interpretato male e cosa avrebbe dovuto fare."></textarea></div>
+<div class="audit-actions" style="margin-top:8px"><button class="btn" id="saveFeedback">Registra correzione</button><button class="btn" id="exportAudit">Esporta audit + feedback JSONL</button></div>
+<div id="feedbackStatus" class="small" style="margin-top:8px">Le correzioni restano etichette da validare offline. Non modificano la strategia live.</div>
+</div>
+<div class="section"><h2>ULTIMI EVENTI DEL MOTORE</h2><div id="auditRows" class="audit-list small">In attesa degli eventi del motore…</div></div>
+<div class="section"><h2>CORREZIONI REGISTRATE</h2><div id="feedbackRows" class="audit-list small">Nessuna correzione.</div></div>
+<div class="notice">Questa build registra decisioni, snapshot disponibili, gate di leva, aperture/chiusure shadow e feedback manuali. Il riconoscimento AEE completo delle strutture XRP 1h/15m (POST_SHOCK e SWING_SEQUENCE) non è ancora implementato in questa PWA e viene esplicitamente marcato come non disponibile, non simulato.</div>
 </section><span id="trend" hidden></span>
-<div class="foot">XRP QUANT TERMINAL · BUILD 0.8.1 · AUTO-UPDATE PWA + CAPITAL + FEE ENGINE</div></main>
+<div class="foot">XRP QUANT TERMINAL · BUILD 0.9.1 SHADOW COCKPIT · LEVERAGE-AWARE RISK</div></main>
+<script src="./cockpit-core.js"></script>
 <script>
 const $=x=>document.getElementById(x);let ws,rows=[],btcRows=[],lastTick=null,bid=0,ask=0,retry=1000;let hybridState={candle:0,side:'WAIT',count:0,armed:false,lastClosed:0};let currentSignal=null;let shadowPosition=null;let shadowTrades=[];const EXIT_KEY='xrpQuantExitJournalV090';try{const savedExit=JSON.parse(localStorage.getItem(EXIT_KEY)||'{}');if(Array.isArray(savedExit)){shadowTrades=savedExit;}else{shadowTrades=Array.isArray(savedExit.trades)?savedExit.trades:[];shadowPosition=savedExit.active||null;}}catch(e){shadowTrades=[];shadowPosition=null;}
 function ema(a,p){let k=2/(p+1),v=a[0];for(let x of a.slice(1))v=x*k+v*(1-k);return v}
@@ -107,9 +138,21 @@ function renderJournal(){
  $('signalRows').innerHTML=recent.length?recent.map(ev=>`<div class="row"><span>${new Date(ev.time).toLocaleString('it-IT')} · ${ev.variants.A}/${ev.variants.B}/${ev.variants.C}</span><b>${ev.long}/${ev.short}</b></div>`).join(''):'In attesa della prima candela chiusa…';
 }
 let lastLoggedCandleTime=0;
+let cockpitRefreshTimer=null;
+function scheduleCockpitRefresh(){if(cockpitRefreshTimer!==null)return;cockpitRefreshTimer=setTimeout(()=>{cockpitRefreshTimer=null;if(typeof refreshCockpit==='function')refreshCockpit();},300);}
+function logCockpitEvent(event){
+ if(!window.CockpitCore)return;
+ window.CockpitCore.logEvent(event).then(scheduleCockpitRefresh).catch(err=>{const el=$('auditStorageState');if(el)el.textContent='ERRORE ARCHIVIO';console.warn('Cockpit audit write failed:',err);});
+}
+function buildLeveragePlan(entry,atrValue){
+ if(!window.CockpitCore||!(entry>0)||!(atrValue>0))return null;
+ const atrPct=atrValue/entry*100,stopDistancePct=(atrValue*1.5)/entry*100;
+ const spreadBps=(bid>0&&ask>0)?((ask-bid)/((ask+bid)/2))*10000:NaN;
+ return window.CockpitCore.computeLeveragePlan({equity:numInput('equityInput',5),entry,stopDistancePct,atrPct,requestedLeverage:Number($('leverageInput')?.value||50),spreadBps,slippagePerSideBps:numInput('slippageInput',2),fundingBufferBps:numInput('fundingBufferInput',2),feeType:$('feeType')?.value||'taker'});
+}
 function recordClosedCandle(){
  if(rows.length<60||btcRows.length<22)return;
- // Bybit keeps the currently-forming candle at the end; find the newest confirmed candle instead.
+ // Bybit keeps the currently-forming candle at the end; decisions use the closed candle only.
  const closed=rows.filter(c=>c[6]===true&&+c[0]>lastLoggedCandleTime);
  if(!closed.length)return;
  closed.sort((a,b)=>+a[0]-+b[0]);
@@ -127,7 +170,20 @@ function recordClosedCandle(){
   const rL=rv>=50&&rv<=70?15:rv>70&&rv<78?8:0,rS=rv<=50&&rv>=30?15:rv<30&&rv>22?8:0,v=relVol>=1.15?15:relVol>=.9?8:0,bL=btcUp?10:0,bS=btcUp?0:10;
   const long=Math.round(clamp(tL+mL+rL+v+bL,0,100)),short=Math.round(clamp(tS+mS+rS+v+bS,0,100));
   const variants={A:strategyPick(long,short,35,10),B:strategyPick(long,short,30,5),C:strategyPick(long,short,pred.score>=65?25:pred.score>=40?30:40,5)};
-  signalLog.push({time:Date.now(),candleTime:ts,entry:+candle[4],long,short,predictability:pred.score,er:+pred.er.toFixed(4),variants,outcomes:{}});openShadowPosition({candleTime:ts,entry:+candle[4],variants});
+  const atrValue=atr(sample),entry=+candle[4],recent=sample.slice(-21,-1);
+  const target=recent.length>=10?(variants.C==='SHORT'?Math.min(...recent.map(c=>+c[3])):Math.max(...recent.map(c=>+c[2]))):entry+(variants.C==='SHORT'?-1:1)*(atrValue||entry*.002)*2;
+  const plan=variants.C!=='WAIT'?buildLeveragePlan(entry,atrValue):null;if(plan)plan.stopModel='ATR_1_5_ON_CONFIRMED_5M_NOT_STRUCTURAL';
+  const eventId=CockpitCore.makeId('EVT');
+  const decisionEvent={
+   eventId,createdAt:Date.now(),marketTime:ts+300000,eventType:'SIGNAL_DECISION',source:'BYBIT_PUBLIC_WEBSOCKET',engineVersion:'0.9.1-shadow-cockpit',
+   marketSnapshot:{symbol:'XRPUSDT',timeframe:'5m',candleStart:ts,candleCloseTime:ts+300000,price:entry,atr:atrValue,atrPct:entry>0&&atrValue?atrValue/entry*100:null,spreadBps:(bid>0&&ask>0)?((ask-bid)/((ask+bid)/2))*10000:null,bid:bid||null,ask:ask||null,btc15m:{direction:btcUp?'UP':'DOWN',lastClosedTimestamp:btcSample.at(-1)?.[0]??null},structure:{status:'NOT_AVAILABLE_IN_CURRENT_BUILD',timeframesMissing:['XRP_15m','XRP_1h'] }},
+   signal:{longScore:long,shortScore:short,predictability:pred.score,efficiencyRatio:+pred.er.toFixed(4),threshold:pred.score>=65?25:pred.score>=40?30:40,variants,components:{trend:{long:tL,short:tS},momentum:{long:+mL.toFixed(2),short:+mS.toFixed(2)},rsi:{value:rv,long:rL,short:rS},relativeVolume:{value:+relVol.toFixed(3),score:v},btc:{up:btcUp,long:bL,short:bS}}},
+   decision:{action:variants.C==='WAIT'?'WAIT':'SHADOW_CANDIDATE',side:variants.C,reasonCodes:variants.C==='WAIT'?['VARIANT_C_WAIT']:['VARIANT_C_CLOSED_SIGNAL']},
+   leverageRiskGate:plan
+  };
+  signalLog.push({time:Date.now(),candleTime:ts,entry,long,short,predictability:pred.score,er:+pred.er.toFixed(4),variants,outcomes:{},auditEventId:eventId});
+  logCockpitEvent(decisionEvent);
+  if(variants.C!=='WAIT')openShadowPosition({candleTime:ts,entry,variants,atr:atrValue,target,eventId,leveragePlan:plan});
   lastLoggedCandleTime=Math.max(lastLoggedCandleTime,ts);
  }
  if(signalLog.length>2000)signalLog=signalLog.slice(-2000);
@@ -135,7 +191,7 @@ function recordClosedCandle(){
 }
 function settleOutcomes(){
  if(!rows.length||!signalLog.length)return;
- let byTime=new Map(rows.map(c=>[+c[0],+c[4]])),changed=false;
+ let byTime=new Map(rows.filter(c=>c[6]===true).map(c=>[+c[0],+c[4]])),changed=false,matured=[];
  for(const ev of signalLog){
   for(const n of HORIZONS){
    const target=ev.candleTime+n*300000;
@@ -145,11 +201,15 @@ function settleOutcomes(){
    for(const v of ['A','B','C']){
     if(ev.variants[v]!=='WAIT'&&!ev.outcomes[n][v]){
      ev.outcomes[n][v]={exit,bps:+signedBps(ev.variants[v],ev.entry,exit).toFixed(2)};changed=true;
+     matured.push({signalEventId:ev.auditEventId||null,variant:v,side:ev.variants[v],entry:ev.entry,exit,horizonMinutes:n*5,outcomeMarketTime:target+300000,grossBps:ev.outcomes[n][v].bps,outcomeCandleConfirmed:true});
     }
    }
   }
  }
- if(changed){persistLog();renderJournal();}
+ if(changed){
+  persistLog();renderJournal();
+  for(let i=0;i<matured.length;i+=100)logCockpitEvent({eventType:'SIGNAL_OUTCOME_BATCH',source:'CONFIRMED_5M_CANDLES',outcomes:matured.slice(i,i+100),outcomeCount:Math.min(100,matured.length-i)});
+ }
 }
 function exportJournal(){
  const lines=[['timestamp','candle_time','entry_price','long_score','short_score','predictability','A','B','C','horizon_min','variant','gross_bps'].join(',')];
@@ -159,11 +219,68 @@ function exportJournal(){
 function persistExit(){try{localStorage.setItem(EXIT_KEY,JSON.stringify({trades:shadowTrades.slice(-500),active:shadowPosition}));}catch(e){}}
 function recentAtr(){return rows.length>15?atr(rows):null;}
 function swingTarget(side,entry){const recent=rows.slice(-21,-1);if(recent.length<10)return entry+(side==='LONG'?1:-1)*(recentAtr()||entry*.002)*2;return side==='LONG'?Math.max(...recent.map(c=>+c[2])):Math.min(...recent.map(c=>+c[3]));}
-function openShadowPosition(ev){if(shadowPosition||!ev||!['LONG','SHORT'].includes(ev.variants.C))return;const side=ev.variants.C,entry=+ev.entry,a=recentAtr();if(!(entry>0&&a>0))return;const stopDist=a*1.5,target=swingTarget(side,entry);if((side==='LONG'&&target<=entry)||(side==='SHORT'&&target>=entry))return;shadowPosition={id:String(ev.candleTime),side,entry,entryTime:ev.candleTime,initialQty:1,remaining:1,stop:entry+(side==='LONG'?-stopDist:stopDist),peakPrice:entry,target,atrAtEntry:a,mode:'SWING',partialTarget:false,oppositeTrimmed:false,mfeBps:0,maeBps:0,realizedGrossBps:0,feesBps:0,events:[],lastDecision:'Apertura shadow su conferma C'};persistExit();renderExit();}
+function openShadowPosition(ev){
+ if(!ev||!['LONG','SHORT'].includes(ev.variants.C))return;if(shadowPosition){logCockpitEvent({eventType:'SHADOW_ENTRY_REJECTED',relatedEventId:ev.eventId,side:ev.variants.C,reason:'POSITION_ALREADY_OPEN',activePositionId:shadowPosition.id});return;}
+ const side=ev.variants.C,entry=+ev.entry,a=+ev.atr,plan=ev.leveragePlan,target=+ev.target;
+ if(!(entry>0&&a>0&&plan&&plan.accepted)){
+  logCockpitEvent({eventType:'RISK_GATE_REJECTED',relatedEventId:ev.eventId,side,reason:plan?.reason||'MISSING_STRUCTURAL_INPUT',riskPlan:plan||null});
+  return;
+ }
+ if((side==='LONG'&&target<=entry)||(side==='SHORT'&&target>=entry)){
+  logCockpitEvent({eventType:'SHADOW_ENTRY_REJECTED',relatedEventId:ev.eventId,side,reason:'NO_VALID_SWING_TARGET'});return;
+ }
+ logCockpitEvent({eventType:'RISK_GATE_ACCEPTED',relatedEventId:ev.eventId,side,requestedLeverage:plan.requestedLeverage,selectedLeverage:plan.selectedLeverage,leverageCapByVolatility:plan.leverageCapByVolatility,riskOnMarginPct:plan.riskOnPositionMarginPct,riskCapPct:plan.riskCapPct,riskBudgetUsdt:plan.riskBudgetUsdt,estimatedLossUsdt:plan.estimatedLossUsdt,totalCostBps:plan.totalCostBps,stopModel:plan.stopModel,reasonCodes:[plan.reason]});
+ const stopDist=a*1.5;
+ shadowPosition={id:String(ev.candleTime),eventId:ev.eventId,side,entry,entryTime:ev.candleTime+300000,initialQty:1,remaining:1,stop:entry+(side==='LONG'?-stopDist:stopDist),peakPrice:entry,target,atrAtEntry:a,mode:'SWING',partialTarget:false,oppositeTrimmed:false,mfeBps:0,maeBps:0,realizedGrossBps:0,feesBps:0,events:[],lastDecision:'Apertura shadow su conferma C + leverage risk gate',leverage:plan.selectedLeverage,requestedLeverage:plan.requestedLeverage,positionMarginUsdt:plan.positionMarginUsdt,notionalUsdt:plan.notionalUsdt,quantityXrp:plan.quantityXrp,riskBudgetUsdt:plan.riskBudgetUsdt,estimatedStopLossUsdt:plan.estimatedLossUsdt,riskOnMarginPct:plan.riskOnPositionMarginPct,riskCapPct:plan.riskCapPct,totalCostBps:plan.totalCostBps,stopDistancePct:plan.stopDistancePct,volatilityCap:plan.leverageCapByVolatility,liquidationCheck:plan.liquidationCheck};
+ persistExit();renderExit();
+ logCockpitEvent({eventType:'SHADOW_POSITION_OPENED',relatedEventId:ev.eventId,positionId:shadowPosition.id,side,entry,stop:shadowPosition.stop,target,leverage:shadowPosition.leverage,requestedLeverage:shadowPosition.requestedLeverage,marginUsdt:shadowPosition.positionMarginUsdt,notionalUsdt:shadowPosition.notionalUsdt,quantityXrp:shadowPosition.quantityXrp,riskBudgetUsdt:shadowPosition.riskBudgetUsdt,estimatedStopLossUsdt:shadowPosition.estimatedStopLossUsdt,riskOnMarginPct:shadowPosition.riskOnMarginPct,riskCapPct:shadowPosition.riskCapPct,totalCostBps:shadowPosition.totalCostBps,reasonCodes:['VARIANT_C_SIGNAL','LEVERAGE_RISK_GATE_PASSED']});
+}
 function exitOppositeState(){if(!shadowPosition||!currentSignal)return 'NONE';const p=shadowPosition,opposite=p.side==='LONG'?currentSignal.short:currentSignal.long,own=p.side==='LONG'?currentSignal.long:currentSignal.short,margin=opposite-own,threshold=currentSignal.threshold;if(opposite>=threshold&&margin>=8)return 'CONFIRMED';if(opposite>=threshold-5&&margin>=3)return 'APPROACHING';return 'NONE';}
-function realizeShadow(q,price,reason){const p=shadowPosition;if(!p||q<=0)return;const qty=Math.min(q,p.remaining),gross=signedBps(p.side,p.entry,price),feeBps=11;p.realizedGrossBps+=gross*qty;p.feesBps+=feeBps*qty;p.remaining=Math.max(0,p.remaining-qty);p.events.push({time:Date.now(),price,qty,reason,grossBps:gross});p.lastDecision=reason;if(p.remaining<0.000001){const net=p.realizedGrossBps-p.feesBps,capture=p.mfeBps>0?net/p.mfeBps*100:null;shadowTrades.push({id:p.id,side:p.side,entry:p.entry,exit:price,netBps:+net.toFixed(2),mfeBps:+p.mfeBps.toFixed(2),maeBps:+p.maeBps.toFixed(2),captureRatio:capture===null?null:+capture.toFixed(1),events:p.events,closedAt:Date.now()});shadowTrades=shadowTrades.slice(-500);shadowPosition=null;persistExit();}renderExit();}
-function manageShadowPosition(){const p=shadowPosition;if(!p||!lastTick||!Number.isFinite(+lastTick.lastPrice))return;const price=+lastTick.lastPrice,a=recentAtr()||p.atrAtEntry;if(!(price>0&&a>0))return;const favorable=signedBps(p.side,p.entry,price),adverse=-favorable;p.mfeBps=Math.max(p.mfeBps,favorable);p.maeBps=Math.max(p.maeBps,adverse);const closes=rows.slice(-4).map(c=>+c[4]);let speed=0;if(closes.length>=3)speed=Math.abs(closes.at(-1)-closes[0]);const momentum=speed/a>=0.75&&favorable>5;p.mode=momentum?'MOMENTUM':'SWING';const trailMult=momentum?2.2:1.25;if(p.side==='LONG'){p.peakPrice=Math.max(p.peakPrice,price);if(favorable>0)p.stop=Math.max(p.stop,p.peakPrice-a*trailMult);}else{p.peakPrice=Math.min(p.peakPrice,price);if(favorable>0)p.stop=Math.min(p.stop,p.peakPrice+a*trailMult);}const nearTarget=p.side==='LONG'?price>=p.target-a*.20:price<=p.target+a*.20,opp=exitOppositeState();if(nearTarget&&!p.partialTarget){p.partialTarget=true;realizeShadow(p.remaining*.5,price,'Target swing vicino · presa parziale 50%');if(!shadowPosition)return;}if(opp==='APPROACHING'&&!p.oppositeTrimmed){p.oppositeTrimmed=true;realizeShadow(p.remaining*.5,price,'Segnale opposto in avvicinamento · riduzione 50%');if(!shadowPosition)return;}if(opp==='CONFIRMED'){realizeShadow(p.remaining,price,'Segnale opposto confermato · chiusura residuo');return;}const stopHit=p.side==='LONG'?price<=p.stop:price>=p.stop;if(stopHit){realizeShadow(p.remaining,price,'Trailing / stop protettivo raggiunto');return;}p.lastDecision=momentum?'Momentum: trailing largo e profitto lasciato correre':'Swing: trailing protettivo e target monitorato';persistExit();renderExit();}
-function renderExit(){const p=shadowPosition;$('exitPositionState').textContent=p?'APERTO · SHADOW':'IN ATTESA';$('exitPositionState').className=p?'g':'a';$('exitEntry').textContent=p?p.side+' · '+p.entry.toFixed(5):'—';$('exitMode').textContent=p?p.mode:'—';$('exitTarget').textContent=p?p.target.toFixed(5):'—';$('exitStop').textContent=p?p.stop.toFixed(5):'—';$('exitRemaining').textContent=p?(p.remaining*100).toFixed(1)+'%':'—';$('exitPnl').textContent=p?((p.realizedGrossBps-p.feesBps)+(signedBps(p.side,p.entry,lastTick?+lastTick.lastPrice:p.entry)*p.remaining-11*p.remaining)).toFixed(2)+' bps · stimato':'—';$('exitExcursions').textContent=p?p.mfeBps.toFixed(1)+' / '+p.maeBps.toFixed(1)+' bps':'—';$('exitDecision').textContent=p?p.lastDecision:(shadowTrades.length?'Ultimo trade completato':'In attesa di un segnale C confermato');$('exitTradesCount').textContent=shadowTrades.length;const ratios=shadowTrades.map(t=>t.captureRatio).filter(Number.isFinite);$('exitCapture').textContent=ratios.length?(ratios.reduce((a,b)=>a+b,0)/ratios.length).toFixed(1)+'%':'—';}
+function realizeShadow(q,price,reason){
+ const p=shadowPosition;if(!p||q<=0)return;
+ const qty=Math.min(q,p.remaining),gross=signedBps(p.side,p.entry,price),costBps=Number.isFinite(p.totalCostBps)?p.totalCostBps:11;
+ p.realizedGrossBps+=gross*qty;p.feesBps+=costBps*qty;p.remaining=Math.max(0,p.remaining-qty);
+ const netSliceBps=gross-costBps,netUsdt=Number.isFinite(p.notionalUsdt)?p.notionalUsdt*qty*netSliceBps/10000:null;
+ p.events.push({time:Date.now(),price,qty,reason,grossBps:gross,estimatedCostBps:costBps,netUsdt});p.lastDecision=reason;
+ logCockpitEvent({eventType:p.remaining<0.000001?'SHADOW_POSITION_CLOSED':'SHADOW_POSITION_PARTIAL_CLOSE',relatedEventId:p.eventId,positionId:p.id,side:p.side,price,quantityFraction:qty,reason,grossBps:gross,estimatedCostBps:costBps,netUsdt,remaining:p.remaining});
+ if(p.remaining<0.000001){
+  const net=p.realizedGrossBps-p.feesBps,capture=p.mfeBps>0?net/p.mfeBps*100:null;
+  const completedTrade={id:p.id,eventId:p.eventId,side:p.side,entry:p.entry,exit:price,leverage:p.leverage,requestedLeverage:p.requestedLeverage,notionalUsdt:p.notionalUsdt,positionMarginUsdt:p.positionMarginUsdt,estimatedStopLossUsdt:p.estimatedStopLossUsdt,riskOnMarginPct:p.riskOnMarginPct,totalCostBps:p.totalCostBps,netBps:+net.toFixed(2),netPnlUsdt:Number.isFinite(p.notionalUsdt)?+((p.notionalUsdt)*net/10000).toFixed(6):null,mfeBps:+p.mfeBps.toFixed(2),maeBps:+p.maeBps.toFixed(2),captureRatio:capture===null?null:+capture.toFixed(1),events:p.events,closedAt:Date.now()};
+  shadowTrades.push(completedTrade);
+  logCockpitEvent({eventType:'SHADOW_TRADE_COMPLETED',relatedEventId:p.eventId,trade:completedTrade,reasonCodes:['SHADOW_TRADE_FLAT']});
+  shadowTrades=shadowTrades.slice(-500);shadowPosition=null;persistExit();
+ }
+ renderExit();
+}
+function manageShadowPosition(){
+ const p=shadowPosition;if(!p||!lastTick||!Number.isFinite(+lastTick.lastPrice))return;
+ const price=+lastTick.lastPrice,a=recentAtr()||p.atrAtEntry;if(!(price>0&&a>0))return;
+ const beforeStop=p.stop,beforeMode=p.mode;
+ const favorable=signedBps(p.side,p.entry,price),adverse=-favorable;p.mfeBps=Math.max(p.mfeBps,favorable);p.maeBps=Math.max(p.maeBps,adverse);
+ const closes=rows.slice(-4).map(c=>+c[4]);let speed=0;if(closes.length>=3)speed=Math.abs(closes.at(-1)-closes[0]);
+ const momentum=speed/a>=0.75&&favorable>5;p.mode=momentum?'MOMENTUM':'SWING';const trailMult=momentum?2.2:1.25;
+ if(p.side==='LONG'){p.peakPrice=Math.max(p.peakPrice,price);if(favorable>0)p.stop=Math.max(p.stop,p.peakPrice-a*trailMult);}
+ else{p.peakPrice=Math.min(p.peakPrice,price);if(favorable>0)p.stop=Math.min(p.stop,p.peakPrice+a*trailMult);}
+ if(p.mode!==beforeMode||(p.side==='LONG'?p.stop-beforeStop:beforeStop-p.stop)>=p.entry*0.0001){
+  logCockpitEvent({eventType:'SHADOW_POSITION_UPDATE',relatedEventId:p.eventId,positionId:p.id,side:p.side,price,mode:p.mode,previousMode:beforeMode,stop:p.stop,previousStop:beforeStop,mfeBps:p.mfeBps,maeBps:p.maeBps,reasonCodes:[p.mode!==beforeMode?'EXIT_MODE_CHANGED':'PROTECTIVE_STOP_TIGHTENED']});
+ }
+ const nearTarget=p.side==='LONG'?price>=p.target-a*.20:price<=p.target+a*.20,opp=exitOppositeState();
+ if(nearTarget&&!p.partialTarget){p.partialTarget=true;realizeShadow(p.remaining*.5,price,'Target swing vicino · presa parziale 50%');if(!shadowPosition)return;}
+ if(opp==='APPROACHING'&&!p.oppositeTrimmed){p.oppositeTrimmed=true;realizeShadow(p.remaining*.5,price,'Segnale opposto in avvicinamento · riduzione 50%');if(!shadowPosition)return;}
+ if(opp==='CONFIRMED'){realizeShadow(p.remaining,price,'Segnale opposto confermato · chiusura residuo');return;}
+ const stopHit=p.side==='LONG'?price<=p.stop:price>=p.stop;if(stopHit){realizeShadow(p.remaining,price,'Trailing / stop protettivo raggiunto');return;}
+ p.lastDecision=momentum?'Momentum: trailing largo e profitto lasciato correre':'Swing: trailing protettivo e target monitorato';persistExit();renderExit();
+}
+function renderExit(){
+ const p=shadowPosition;$('exitPositionState').textContent=p?'APERTO · SHADOW':'IN ATTESA';$('exitPositionState').className=p?'g':'a';$('exitEntry').textContent=p?p.side+' · '+p.entry.toFixed(5):'—';
+ $('exitLeverage').textContent=p?(Number.isFinite(p.leverage)?`${p.leverage}x · ${(p.notionalUsdt||0).toFixed(4)} USDT`:'LEGACY · N/D'):'—';
+ $('exitMarginRisk').textContent=p?(Number.isFinite(p.positionMarginUsdt)?`${p.positionMarginUsdt.toFixed(5)} USDT · ${(p.riskOnMarginPct||0).toFixed(2)}% / cap ${(p.riskCapPct||0)}%`:'LEGACY · N/D'):'—';
+ $('exitMode').textContent=p?p.mode:'—';$('exitTarget').textContent=p?p.target.toFixed(5):'—';$('exitStop').textContent=p?p.stop.toFixed(5):'—';$('exitRemaining').textContent=p?(p.remaining*100).toFixed(1)+'%':'—';
+ const openGross=p&&lastTick?signedBps(p.side,p.entry,+lastTick.lastPrice):0;
+ const totalNetBps=p?(p.realizedGrossBps-p.feesBps)+(openGross*p.remaining-(p.totalCostBps||11)*p.remaining):0;
+ const netUsdt=p?(p.notionalUsdt||0)*totalNetBps/10000:0;
+ $('exitPnl').textContent=p?(Number.isFinite(p.notionalUsdt)?`${netUsdt.toFixed(6)} USDT · ${totalNetBps.toFixed(2)} bps netti stimati`:`N/D USDT · ${totalNetBps.toFixed(2)} bps · trade legacy senza sizing`):'—';$('exitExcursions').textContent=p?p.mfeBps.toFixed(1)+' / '+p.maeBps.toFixed(1)+' bps':'—';$('exitDecision').textContent=p?p.lastDecision:(shadowTrades.length?'Ultimo trade completato':'In attesa di un segnale C confermato');$('exitTradesCount').textContent=shadowTrades.length;const ratios=shadowTrades.map(t=>t.captureRatio).filter(Number.isFinite);$('exitCapture').textContent=ratios.length?(ratios.reduce((a,b)=>a+b,0)/ratios.length).toFixed(1)+'%':'—';
+}
 function calculateSignals(){if(rows.length<60||btcRows.length<22)return;let closes=rows.map(z=>+z[4]),vols=rows.map(z=>+z[5]||0),e9=ema(closes.slice(-80),9),e21=ema(closes.slice(-100),21),rv=rsi(closes),roc=(closes.at(-1)/closes.at(-7)-1)*100,volAvg=vols.slice(-21,-1).reduce((a,b)=>a+b,0)/20,relVol=volAvg?vols.at(-1)/volAvg:1,btc=btcRows.map(z=>+z[4]),btcUp=ema(btc,9)>ema(btc,21),pred=predictability(closes,rows),threshold=pred.score>=65?25:pred.score>=40?30:40;let tL=e9>e21?20:0,tS=e9<e21?20:0,mL=roc>0?clamp(roc/.12*25,0,25):0,mS=roc<0?clamp(-roc/.12*25,0,25):0,rL=rv>=50&&rv<=70?15:rv>70&&rv<78?8:0,rS=rv<=50&&rv>=30?15:rv<30&&rv>22?8:0,v=relVol>=1.15?15:relVol>=.9?8:0,bL=btcUp?10:0,bS=btcUp?0:10,long=Math.round(clamp(tL+mL+rL+v+bL,0,100)),short=Math.round(clamp(tS+mS+rS+v+bS,0,100));let candidate='WAIT',reason='Nessun punteggio supera la soglia adattiva o il vantaggio direzionale è insufficiente.';if(long>=threshold&&long-short>=8){candidate='LONG CANDIDATE';reason='LONG supera la soglia e prevale di almeno 8 punti. Non è un ordine.'}else if(short>=threshold&&short-long>=8){candidate='SHORT CANDIDATE';reason='SHORT supera la soglia e prevale di almeno 8 punti. Non è un ordine.'}currentSignal={long,short,threshold,btcUp,side:candidate.startsWith('LONG')?'LONG':candidate.startsWith('SHORT')?'SHORT':'WAIT'};$('longScore').textContent=long+'/100';$('shortScore').textContent=short+'/100';$('longState').textContent=long>=threshold?'Sopra soglia':'Sotto soglia';$('shortState').textContent=short>=threshold?'Sopra soglia':'Sotto soglia';$('predictability').textContent=pred.score+'/100 · ER '+pred.er.toFixed(2);$('regime').textContent=(pred.score>=65?'HIGH':pred.score>=40?'MEDIUM':'LOW')+' · soglia '+threshold;$('candidate').textContent=candidate;$('candidate').className=candidate==='LONG CANDIDATE'?'g':candidate==='SHORT CANDIDATE'?'r':'a';$('btc2').textContent=btcUp?'UP':'DOWN';$('cTrend').textContent='L '+tL+' / S '+tS;$('cMomentum').textContent='L '+mL.toFixed(0)+' / S '+mS.toFixed(0);$('cRsi').textContent='L '+rL+' / S '+rS;$('cVolume').textContent=v+' each';$('cBtc').textContent='L '+bL+' / S '+bS;$('cEr').textContent=pred.er.toFixed(2);$('signalReason').textContent=reason+' Score euristici, non probabilità, da validare con backtest.'}
 function evaluateHybrid(k){
  if(!currentSignal||!k)return;
@@ -200,26 +317,69 @@ function update(){if($('equityInput'))renderCapitalFee();if(lastTick&&Number.isF
 function upsert(arr,k){let i=arr.findIndex(x=>x[0]===k[0]);if(i>=0)arr[i]=k;else arr.push(k);arr.sort((a,b)=>a[0]-b[0]);if(arr.length>220)arr.shift()}
 function connect(){try{ws=new WebSocket('wss://stream.bybit.com/v5/public/linear');ws.onopen=()=>{retry=1000;$('conn').textContent='● BYBIT STREAM LIVE';ws.send(JSON.stringify({op:'subscribe',args:['tickers.XRPUSDT','orderbook.1.XRPUSDT','kline.5.XRPUSDT','kline.15.BTCUSDT']}));};ws.onmessage=e=>{let m=JSON.parse(e.data);if(m.topic==='tickers.XRPUSDT'&&m.data){lastTick=m.data;update()}else if(m.topic==='orderbook.1.XRPUSDT'&&m.data){bid=+m.data.b[0][0];ask=+m.data.a[0][0];update()}else if(m.topic==='kline.5.XRPUSDT'&&m.data){m.data.forEach(k=>{upsert(rows,[+k.start,+k.start,+k.high,+k.low,+k.close,+k.volume,!!k.confirm]);update();evaluateHybrid(k)})}else if(m.topic==='kline.15.BTCUSDT'&&m.data){m.data.forEach(k=>upsert(btcRows,[+k.start,+k.start,+k.high,+k.low,+k.close,+k.volume,!!k.confirm]));update()}};ws.onerror=()=>{$('conn').textContent='● STREAM ERROR'};ws.onclose=()=>{$('conn').textContent='● RECONNECTING';setTimeout(connect,retry);retry=Math.min(retry*2,15000)}}catch(e){$('err').textContent=e.message;setTimeout(connect,retry)}}
 
-const CAP_KEY='xrpQuantCapitalV080';
+const CAP_KEY='xrpQuantCapitalV091';
 function numInput(id,fallback=0){const v=Number($(id)?.value);return Number.isFinite(v)&&v>=0?v:fallback}
 function renderCapitalFee(){
  const equity=numInput('equityInput',5),allocation=equity*.25,reserve=equity-allocation;
- const atrPct=rows.length>15?((atr(rows)/Number(rows.at(-1)[4]))*100):null;
- let volFactor=1,volLabel='N/D';
- if(Number.isFinite(atrPct)){volFactor=atrPct>.50?.5:atrPct>.35?.75:1;volLabel=volFactor.toFixed(2)+'× · ATR '+atrPct.toFixed(3)+'%'}
- const risk=allocation*.01*volFactor;
+ const closedRows=rows.filter(c=>c[6]===true),atrValue=closedRows.length>15?atr(closedRows):null;
+ const lastClosed=closedRows.at(-1),atrPct=atrValue&&lastClosed?atrValue/Number(lastClosed[4])*100:null;
+ const volFactor=window.CockpitCore?window.CockpitCore.volatilityRiskFactor(atrPct):1;
+ const volLabel=Number.isFinite(atrPct)?`${volFactor.toFixed(2)}× · ATR chiuso ${atrPct.toFixed(3)}%`:'N/D · attendo 5m chiuse';
+ const risk=allocation*.01*(Number.isFinite(volFactor)?volFactor:0);
  $('agentCapital').textContent=allocation.toFixed(4)+' USDT';$('reserveCapital').textContent=reserve.toFixed(4)+' USDT';$('volFactor').textContent=volLabel;$('riskBudget').textContent=risk.toFixed(5)+' USDT';
  const notional=numInput('notionalInput',10),slip=numInput('slippageInput',2),rate=$('feeType').value==='maker'?.0002:.00055;
  const spread=(bid>0&&ask>0)?((ask-bid)/((ask+bid)/2))*10000:null;
- const fee=notional*rate*2,spreadCost=spread===null?null:notional*spread/10000,slippageCost=notional*(slip*2)/10000,total=fee+(spreadCost??0)+slippageCost;
+ const fee=notional*rate*2,spreadCost=spread===null?null:notional*spread/10000,slippageCost=notional*(slip*2)/10000;
+ const fundingBps=numInput('fundingBufferInput',2),fundingCost=notional*fundingBps/10000,total=fee+(spreadCost??0)+slippageCost+fundingCost;$('fundingCost').textContent=fundingBps.toFixed(2)+' bps · '+fundingCost.toFixed(6)+' USDT assunti';
  $('feeSpread').textContent=spread===null?'N/D':spread.toFixed(2)+' bps';$('feeRoundTrip').textContent=fee.toFixed(6)+' USDT';$('executionCost').textContent=(spreadCost===null?'Spread N/D · ':'')+((spreadCost??0)+slippageCost).toFixed(6)+' USDT';$('totalCost').textContent=(spreadCost===null?'Parziale · ':'')+total.toFixed(6)+' USDT';$('breakEven').textContent=(notional>0?(total/notional*100).toFixed(4)+'% · '+(total/notional*10000).toFixed(2)+' bps':'—');
+ const preview=atrValue&&lastClosed?buildLeveragePlan(+lastClosed[4],atrValue):null;
+ const set=(id,value)=>{const el=$(id);if(el)el.textContent=value;};
+ set('leverageVolCap',preview?preview.leverageCapByVolatility+'x':'—');
+ set('leverageSelected',preview&&preview.accepted?preview.selectedLeverage+'x':preview?'BLOCCATA':'—');
+ set('leverageRiskPct',preview&&preview.accepted?preview.riskOnPositionMarginPct.toFixed(2)+'%':'—');
+ set('leverageRiskCap',preview&&preview.accepted?preview.riskCapPct.toFixed(0)+'%':'—');
+ set('leverageMargin',preview&&preview.accepted?preview.positionMarginUsdt.toFixed(5)+' USDT':'—');
+ set('leverageNotional',preview&&preview.accepted?preview.notionalUsdt.toFixed(5)+' USDT':'—');
+ set('leverageLoss',preview&&preview.accepted?preview.estimatedLossUsdt.toFixed(5)+' USDT':'—');
+ const gate=$('leverageGateStatus'),reason=$('leverageGateReason');
+ if(gate){gate.textContent=preview?(preview.accepted?'RISK GATE OK':'BLOCCATO · '+preview.reason):'IN ATTESA DATI';gate.className=preview&&preview.accepted?'g':'a';}
+ if(reason){reason.textContent=preview&&preview.accepted?`Leva richiesta ${preview.requestedLeverage}x · autorizzabile in shadow ${preview.selectedLeverage}x. La perdita prevista alla stop è ${preview.estimatedLossUsdt.toFixed(5)} USDT (${preview.riskOnPositionMarginPct.toFixed(2)}% del margine posizione), contro un budget di ${preview.riskBudgetUsdt.toFixed(5)} USDT. Costi stimati ${preview.totalCostBps.toFixed(2)} bps, incluso buffer funding assunto.`:preview?`Nuove aperture shadow bloccate: ${preview.reason}.`:'In attesa di ATR da candela chiusa e spread bid/ask valido; fino ad allora nessuna nuova posizione shadow.';}
 }
-function exportExitJournal(){const lines=[['id','side','entry','exit','net_bps','mfe_bps','mae_bps','capture_ratio_pct','closed_at','events'].join(',')];for(const t of shadowTrades){const events=(t.events||[]).map(e=>`${e.reason} @ ${e.price} qty ${e.qty}`).join(' | ').replaceAll('"','""');lines.push([t.id,t.side,t.entry,t.exit,t.netBps,t.mfeBps,t.maeBps,t.captureRatio??'',new Date(t.closedAt).toISOString(),'"'+events+'"'].join(','));}const blob=new Blob([lines.join('\n')],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='xrp-quant-exit-journal.csv';a.click();URL.revokeObjectURL(url);}
-function loadCapital(){try{const v=JSON.parse(localStorage.getItem(CAP_KEY)||'{}');if(Number.isFinite(v.equity)&&v.equity>=0)$('equityInput').value=v.equity;if(Number.isFinite(v.notional)&&v.notional>=0)$('notionalInput').value=v.notional;if(Number.isFinite(v.slippage)&&v.slippage>=0)$('slippageInput').value=v.slippage;if(v.feeType)$('feeType').value=v.feeType}catch(e){}renderCapitalFee()}
-function saveCapital(){try{localStorage.setItem(CAP_KEY,JSON.stringify({equity:numInput('equityInput',5),notional:numInput('notionalInput',10),slippage:numInput('slippageInput',2),feeType:$('feeType').value}))}catch(e){}renderCapitalFee()}
-['equityInput','notionalInput','slippageInput','feeType'].forEach(id=>$(id).addEventListener('input',saveCapital));
+function exportExitJournal(){const lines=[['id','event_id','side','entry','exit','leverage','notional_usdt','margin_usdt','estimated_stop_loss_usdt','risk_on_margin_pct','total_cost_bps','net_bps','net_pnl_usdt','mfe_bps','mae_bps','capture_ratio_pct','closed_at','events'].join(',')];for(const t of shadowTrades){const events=(t.events||[]).map(e=>`${e.reason} @ ${e.price} qty ${e.qty}`).join(' | ').replaceAll('"','""');lines.push([t.id,t.eventId||'',t.side,t.entry,t.exit,t.leverage??'',t.notionalUsdt??'',t.positionMarginUsdt??'',t.estimatedStopLossUsdt??'',t.riskOnMarginPct??'',t.totalCostBps??'',t.netBps,t.netPnlUsdt??'',t.mfeBps,t.maeBps,t.captureRatio??'',new Date(t.closedAt).toISOString(),'"'+events+'"'].join(','));}const blob=new Blob([lines.join('\n')],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='xrp-quant-exit-journal.csv';a.click();URL.revokeObjectURL(url);}
+async function refreshCockpit(){
+ if(!window.CockpitCore)return;
+ try{
+  const [events,feedback,counts]=await Promise.all([CockpitCore.recentEvents(40),CockpitCore.allFeedback(),CockpitCore.recordCounts()]);
+  $('auditEventCount').textContent=counts.events;$('auditFeedbackCount').textContent=counts.feedback;
+  const mode=CockpitCore.getStorageMode();$('auditStorageState').textContent=mode==='INDEXED_DB'?'INDEXEDDB · LOCALE':mode==='LOCAL_FALLBACK'?'LOCALSTORAGE FALLBACK':'STORAGE ERROR';$('auditStorageState').className=mode==='INDEXED_DB'?'g':'a';
+  const evRows=$('auditRows');evRows.replaceChildren();
+  if(!events.length){evRows.textContent='In attesa degli eventi del motore.';}else{
+   events.slice(0,20).forEach(ev=>{const card=document.createElement('div');card.className='audit-item';const title=document.createElement('b');title.textContent=ev.eventType||'EVENT';const detail=document.createElement('div');const side=ev.side||ev.decision?.side||ev.trade?.side||'—';const price=ev.price??ev.marketSnapshot?.price??ev.trade?.exit??'—';const extra=ev.eventType==='SIGNAL_OUTCOME_BATCH'?`${ev.outcomeCount||ev.outcomes?.length||0} esiti forward`:ev.eventType==='SHADOW_TRADE_COMPLETED'?`P&L ${ev.trade?.netPnlUsdt??'N/D'} USDT · ${ev.trade?.leverage??'N/D'}x`:'';detail.textContent=`${new Date(ev.createdAt).toLocaleString('it-IT')} · ${side} · ${price} · ${extra} · ${ev.eventId}`;const reason=document.createElement('div');reason.className='small';reason.textContent=ev.reason||ev.rationale||ev.reasonCodes?.join(', ')||ev.decision?.reasonCodes?.join(', ')||ev.trade?.events?.map(x=>x.reason).join(' / ')||'';card.append(title,detail,reason);evRows.append(card);});
+  }
+  const select=$('feedbackEvent'),selected=select.value;select.replaceChildren();const empty=document.createElement('option');empty.value='';empty.textContent='Nessun evento specifico / feedback generale';select.append(empty);
+  const reviewable=events.filter(ev=>['SIGNAL_DECISION','RISK_GATE_ACCEPTED','RISK_GATE_REJECTED','SHADOW_POSITION_OPENED','SHADOW_POSITION_UPDATE','SHADOW_POSITION_PARTIAL_CLOSE','SHADOW_POSITION_CLOSED','SHADOW_TRADE_COMPLETED','SHADOW_ENTRY_REJECTED'].includes(ev.eventType));
+  reviewable.forEach(ev=>{const op=document.createElement('option');op.value=ev.eventId;op.textContent=`${new Date(ev.createdAt).toLocaleTimeString('it-IT')} · ${ev.eventType} · ${ev.side||ev.decision?.side||'—'}`;select.append(op);});if(selected&&reviewable.some(e=>e.eventId===selected))select.value=selected;
+  const fbRows=$('feedbackRows');fbRows.replaceChildren();
+  if(!feedback.length){fbRows.textContent='Nessuna correzione.';}else feedback.slice(0,20).forEach(f=>{const card=document.createElement('div');card.className='audit-item';const title=document.createElement('b');title.textContent=`${f.feedbackId} · ${f.category} · ${f.status}`;const rationale=document.createElement('div');rationale.textContent=f.rationale||'';const note=document.createElement('div');note.className='small';note.textContent=`${f.label||f.expectedAction||''} · ${f.eventId||'non collegato a un evento'}`;card.append(title,rationale,note);fbRows.append(card);});
+ }catch(err){$('auditStorageState').textContent='ERRORE';$('feedbackStatus').textContent='Errore di lettura audit: '+err.message;}
+}
+async function saveOperatorFeedback(){
+ const reason=$('feedbackReason').value.trim();if(!reason){$('feedbackStatus').textContent='Inserisci una motivazione prima di registrare.';return;}
+ const category=$('feedbackCategory').value,expectedAction=$('feedbackExpectedAction').value;
+ const labels={entry_location:'ENTRY_LOCATION_REVIEW',structure:'STRUCTURE_REVIEW',direction:'DIRECTION_REVIEW',trigger:'TRIGGER_REVIEW',timing:'TIMING_REVIEW',risk_management:'RISK_MANAGEMENT_REVIEW',context:'CONTEXT_REVIEW',missed_opportunity:'MISSED_OPPORTUNITY_REVIEW'};
+ try{
+  const item=await CockpitCore.saveFeedback({eventId:$('feedbackEvent').value||null,category,label:labels[category],rationale:reason,expectedAction,status:'PENDING_VALIDATION',operatorConfidence:null,validationMode:'OFFLINE_ONLY'});
+  $('feedbackStatus').textContent=`Correzione ${item.feedbackId} registrata. Nessuna modifica automatica alla strategia.`;$('feedbackReason').value='';await refreshCockpit();
+ }catch(err){$('feedbackStatus').textContent='Salvataggio fallito: '+err.message;}
+}
+function exportCockpitAudit(){CockpitCore.exportJSONL().then(content=>{const blob=new Blob([content],{type:'application/x-ndjson'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='xrp-quant-cockpit-audit.jsonl';a.click();URL.revokeObjectURL(url);}).catch(err=>$('feedbackStatus').textContent='Esportazione fallita: '+err.message);}
+function loadCapital(){try{const v=JSON.parse(localStorage.getItem(CAP_KEY)||localStorage.getItem('xrpQuantCapitalV080')||'{}');if(Number.isFinite(v.equity)&&v.equity>=0)$('equityInput').value=v.equity;if(Number.isFinite(v.notional)&&v.notional>=0)$('notionalInput').value=v.notional;if(Number.isFinite(v.slippage)&&v.slippage>=0)$('slippageInput').value=v.slippage;if(v.feeType)$('feeType').value=v.feeType;if(Number.isFinite(v.leverage))$('leverageInput').value=String(v.leverage);if(Number.isFinite(v.fundingBuffer))$('fundingBufferInput').value=v.fundingBuffer}catch(e){}renderCapitalFee()}
+function saveCapital(){try{localStorage.setItem(CAP_KEY,JSON.stringify({equity:numInput('equityInput',5),notional:numInput('notionalInput',10),slippage:numInput('slippageInput',2),feeType:$('feeType').value,leverage:numInput('leverageInput',50),fundingBuffer:numInput('fundingBufferInput',2)}))}catch(e){}renderCapitalFee()}
+['equityInput','notionalInput','slippageInput','feeType','leverageInput','fundingBufferInput'].forEach(id=>{$(id).addEventListener('input',saveCapital);$(id).addEventListener('change',saveCapital)});
 loadCapital();renderExit();
-$('exportLog').onclick=exportJournal;$('exportExit').onclick=exportExitJournal;$('clearLog').onclick=()=>{if(confirm('Cancellare definitivamente il registro segnali locale di questo dispositivo?')){signalLog=[];persistLog();renderJournal()}};renderJournal();document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('hidden',x.id!==b.dataset.tab))});async function bootstrap(){try{const [x,b]=await Promise.all([fetch('https://api.bybit.com/v5/market/kline?category=linear&symbol=XRPUSDT&interval=5&limit=200').then(r=>r.json()),fetch('https://api.bybit.com/v5/market/kline?category=linear&symbol=BTCUSDT&interval=15&limit=30').then(r=>r.json())]);if(x.retCode!==0||b.retCode!==0)throw Error('Bybit REST bootstrap error');rows=x.result.list.slice().reverse().map(k=>[+k[0],+k[0],+k[2],+k[3],+k[4],+k[5],true]);btcRows=b.result.list.slice().reverse().map(k=>[+k[0],+k[0],+k[2],+k[3],+k[4],+k[5],true]);if(rows.length)rows[rows.length-1][6]=false;if(btcRows.length)btcRows[btcRows.length-1][6]=false;lastLoggedCandleTime=rows.length>1?+rows[rows.length-2][0]:0;update()}catch(e){$('err').textContent='Storico iniziale non caricato: '+e.message+'; provo comunque lo streaming live.'}}
+CockpitCore.seedInitialFeedback().then(refreshCockpit).catch(err=>{$('auditStorageState').textContent='STORAGE ERROR';console.warn(err)});
+$('saveFeedback').onclick=saveOperatorFeedback;$('exportAudit').onclick=exportCockpitAudit;
+$('exportLog').onclick=exportJournal;$('exportExit').onclick=exportExitJournal;$('clearLog').onclick=()=>{if(confirm('Cancellare definitivamente il registro segnali locale di questo dispositivo?')){signalLog=[];persistLog();renderJournal()}};renderJournal();document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('hidden',x.id!==b.dataset.tab));if(b.dataset.tab==='cockpit')refreshCockpit()});async function bootstrap(){try{const [x,b]=await Promise.all([fetch('https://api.bybit.com/v5/market/kline?category=linear&symbol=XRPUSDT&interval=5&limit=200').then(r=>r.json()),fetch('https://api.bybit.com/v5/market/kline?category=linear&symbol=BTCUSDT&interval=15&limit=30').then(r=>r.json())]);if(x.retCode!==0||b.retCode!==0)throw Error('Bybit REST bootstrap error');rows=x.result.list.slice().reverse().map(k=>[+k[0],+k[0],+k[2],+k[3],+k[4],+k[5],true]);btcRows=b.result.list.slice().reverse().map(k=>[+k[0],+k[0],+k[2],+k[3],+k[4],+k[5],true]);if(rows.length)rows[rows.length-1][6]=false;if(btcRows.length)btcRows[btcRows.length-1][6]=false;lastLoggedCandleTime=rows.length>1?+rows[rows.length-2][0]:0;update()}catch(e){$('err').textContent='Storico iniziale non caricato: '+e.message+'; provo comunque lo streaming live.'}}
 bootstrap().finally(connect);
 // PWA auto-update: check the deployed worker at startup and whenever the app
 // returns to the foreground. Keep localStorage (journal/settings) untouched.
