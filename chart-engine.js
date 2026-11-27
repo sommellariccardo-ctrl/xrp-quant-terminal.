@@ -26,13 +26,15 @@
     panOffset: 0,
     drawMode: 'cursor',
     annotations: [],
+    batchSending: false,
     tradeOverlay: null,
     crosshair: null,
     drag: null,
     pendingTrendAnchor: null,
     raf: 0,
     resizeObserver: null,
-    lastRenderWidth: 0
+    lastRenderWidth: 0,
+    livePrice: null
   };
 
   const $ = (id) => document.getElementById(id);
@@ -104,6 +106,32 @@
     if (arr.length > 1200) arr.splice(0, arr.length - 1200);
     if (interval === state.activeTf) scheduleRender();
     setStatus(candle.confirmed ? 'BYBIT · CANDLE CLOSED' : 'BYBIT · LIVE CANDLE', true);
+  }
+
+  function updateLivePrice(price, exchangeTimestampMs) {
+    const value = Number(price);
+    if (!(Number.isFinite(value) && value > 0)) return false;
+    const ts = Number(exchangeTimestampMs) > 0 ? Number(exchangeTimestampMs) : Date.now();
+    state.livePrice = {
+      price: value,
+      time: Math.floor(ts / 1000),
+      receivedAt: Date.now(),
+      exchangeTimestamp: ts
+    };
+    const el = $('chartLivePrice');
+    if (el) el.textContent = `LAST ${value.toFixed(5)} · aggiornato`;
+    if (state.panOffset === 0) scheduleRender();
+    return true;
+  }
+
+  function setLiveAge(ageMs) {
+    const el = $('chartLivePrice');
+    if (!el) return;
+    const live = state.livePrice;
+    if (!live) { el.textContent = 'LAST — · in attesa'; return; }
+    const age = Number.isFinite(Number(ageMs)) ? Math.max(0, Number(ageMs)) : Date.now() - live.receivedAt;
+    const seconds = (age / 1000).toFixed(1);
+    el.textContent = `LAST ${live.price.toFixed(5)} · ${age <= 3000 ? 'LIVE' : age <= 15000 ? 'RITARDO' : 'STALE'} ${seconds}s`;
   }
 
   async function loadHistory(intervals) {
@@ -199,12 +227,31 @@
       return;
     }
 
-    let min = Math.min(...data.map(x => x.low));
-    let max = Math.max(...data.map(x => x.high));
+    // The ticker is faster than the kline stream. Overlay its lastPrice onto the
+    // currently forming candle for display only; stored OHLCV remains exchange kline data.
+    const live = state.panOffset === 0 && state.livePrice && Date.now() - state.livePrice.receivedAt <= 15000
+      ? state.livePrice : null;
+    const visualData = data.slice();
+    const intervalSeconds = Number(state.activeTf) * 60;
+    if (live && arr.length) {
+      const bucket = Math.floor(live.time / intervalSeconds) * intervalSeconds;
+      const lastReal = arr[arr.length - 1];
+      if (lastReal.time === bucket && !lastReal.confirmed) {
+        const visibleIndex = visualData.findIndex(c => c.time === bucket);
+        if (visibleIndex >= 0) {
+          const candle = visualData[visibleIndex];
+          visualData[visibleIndex] = { ...candle, high: Math.max(candle.high, live.price), low: Math.min(candle.low, live.price), close: live.price, liveOverlay: true };
+        }
+      }
+    }
+
+    let min = Math.min(...visualData.map(x => x.low));
+    let max = Math.max(...visualData.map(x => x.high));
+    if (live) { min = Math.min(min, live.price); max = Math.max(max, live.price); }
     const range = Math.max(max - min, Math.abs(max) * 0.0002, 0.000001);
     min -= range * 0.08; max += range * 0.08;
     const y = price => L.bottom - (price - min) / (max - min) * (L.bottom - L.top);
-    const slot = L.width / Math.max(data.length, 1);
+    const slot = L.width / Math.max(visualData.length, 1);
     const bodyW = Math.max(1.5, Math.min(12, slot * 0.66));
     const xForIndex = i => L.left + (i - start + 0.5) * slot;
     const timeToX = t => {
@@ -226,9 +273,9 @@
       ctx.fillStyle = COLORS.text; ctx.fillText(price.toFixed(5), L.right + 7, py);
     }
 
-    const maxVol = Math.max(1, ...data.map(x => x.volume || 0));
+    const maxVol = Math.max(1, ...visualData.map(x => x.volume || 0));
     // Volume bars.
-    data.forEach((candle, j) => {
+    visualData.forEach((candle, j) => {
       const x = xForIndex(start + j);
       const vh = ((candle.volume || 0) / maxVol) * (L.volumeBottom - L.volumeTop);
       ctx.fillStyle = candle.close >= candle.open ? COLORS.volumeUp : COLORS.volumeDown;
@@ -236,7 +283,7 @@
     });
 
     // Candlesticks.
-    data.forEach((candle, j) => {
+    visualData.forEach((candle, j) => {
       const x = xForIndex(start + j), up = candle.close >= candle.open;
       const color = up ? COLORS.green : COLORS.red;
       const openY = y(candle.open), closeY = y(candle.close), highY = y(candle.high), lowY = y(candle.low);
@@ -253,10 +300,20 @@
     // Volume separator and time axis.
     ctx.strokeStyle = COLORS.grid; ctx.beginPath(); ctx.moveTo(L.left, L.volumeTop - 5); ctx.lineTo(L.right, L.volumeTop - 5); ctx.stroke();
     ctx.fillStyle = COLORS.text; ctx.textBaseline = 'top'; ctx.textAlign = 'center';
-    const labelEvery = Math.max(1, Math.floor(data.length / 6));
-    for (let j = 0; j < data.length; j += labelEvery) {
+    const labelEvery = Math.max(1, Math.floor(visualData.length / 6));
+    for (let j = 0; j < visualData.length; j += labelEvery) {
       const x = xForIndex(start + j);
-      ctx.fillText(timeLabel(data[j].time, state.activeTf), x, L.volumeBottom + 9);
+      ctx.fillText(timeLabel(visualData[j].time, state.activeTf), x, L.volumeBottom + 9);
+    }
+
+    // Live last-trade price marker follows the same public ticker as the header and paper P&L.
+    if (live) {
+      const py = y(live.price);
+      ctx.save(); ctx.strokeStyle = COLORS.amber; ctx.lineWidth = 1.2; ctx.setLineDash([4, 3]);
+      ctx.beginPath(); ctx.moveTo(L.left, py); ctx.lineTo(L.right, py); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#3b2d12'; ctx.fillRect(L.right + 2, py - 9, 68, 18);
+      ctx.fillStyle = COLORS.amber; ctx.font = 'bold 10px -apple-system, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText(live.price.toFixed(5), L.right + 5, py); ctx.restore();
     }
 
     // Active paper position is a separate overlay, not an operator drawing or strategy signal.
@@ -279,7 +336,7 @@
       ctx.fillStyle = '#edf3fb'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(price.toFixed(5), L.right + 6, state.crosshair.y);
     }
 
-    const last = data[data.length - 1];
+    const last = visualData[visualData.length - 1];
     const selected = state.crosshair ? candleAtX(state.crosshair.x, arr, start, end, L) : last;
     updateOhlc(selected || last);
   }
@@ -506,6 +563,15 @@
   function renderAnnotationList() {
     const list = $('annotationList'); if (!list) return;
     $('annotationCount').textContent = state.annotations.length;
+    const pendingCount = state.annotations.filter(a => !a.machineSubmitted).length;
+    const bulkButton = $('sendAllAnnotations');
+    if (bulkButton) {
+      bulkButton.textContent = state.batchSending
+        ? 'Invio annotazioni…'
+        : `Invia tutte le annotazioni ad AEE (${pendingCount})`;
+      bulkButton.disabled = state.batchSending || pendingCount === 0;
+      bulkButton.setAttribute?.('aria-label', `Invia ${pendingCount} annotazioni non ancora inviate ad AEE`);
+    }
     list.replaceChildren();
     if (!state.annotations.length) {
       const empty = document.createElement('div'); empty.className = 'small'; empty.textContent = 'Nessuna annotazione manuale.'; list.appendChild(empty); return;
@@ -564,6 +630,58 @@
     } catch (error) {
       if ($('chartDrawingStatus')) $('chartDrawingStatus').textContent = 'Invio ad AEE non riuscito: ' + error.message;
     }
+  }
+
+  async function sendAllPendingAnnotationsToMachine() {
+    const pending = state.annotations.filter(a => !a.machineSubmitted);
+    const status = $('bulkAnnotationStatus');
+    if (!pending.length) {
+      if (status) status.textContent = 'Non ci sono annotazioni nuove da inviare.';
+      return { sent: 0, failed: 0, total: 0 };
+    }
+    if (!window.CockpitCore || typeof window.CockpitCore.registerOperatorStructure !== 'function') {
+      if (status) status.textContent = 'Archivio AEE non disponibile: nessuna annotazione inviata.';
+      return { sent: 0, failed: pending.length, total: pending.length };
+    }
+    if (!window.confirm(`Inviare tutte le ${pending.length} annotazioni non ancora inviate ad AEE come contesto?\n\nL’invio NON approva l’apprendimento offline e NON abilita ordini o modifiche alla strategia.`)) {
+      return { sent: 0, failed: 0, total: pending.length, cancelled: true };
+    }
+
+    state.batchSending = true;
+    renderAnnotationList();
+    if (status) status.textContent = `Invio in corso: 0/${pending.length}…`;
+    let sent = 0;
+    const failures = [];
+    try {
+      // Sequential writes avoid racing IndexedDB transactions and provide a precise partial-failure report.
+      for (let i = 0; i < pending.length; i++) {
+        const annotation = pending[i];
+        try {
+          const record = await window.CockpitCore.registerOperatorStructure(annotation);
+          annotation.machineSubmitted = true;
+          annotation.machineRecordId = record.annotationId;
+          annotation.machineSubmittedAt = new Date(record.receivedAt).toISOString();
+          annotation.trainingStatus = record.trainingStatus || 'PENDING_OPERATOR_APPROVAL';
+          annotation.decision_intent = 'MACHINE_CONTEXT_REFERENCE_ONLY';
+          annotation.execution_authorized = false;
+          sent++;
+        } catch (error) {
+          failures.push({ annotationId: annotation.annotation_id, error: error?.message || String(error) });
+        }
+        if (status) status.textContent = `Invio in corso: ${i + 1}/${pending.length} · ${sent} registrate`;
+      }
+    } finally {
+      state.batchSending = false;
+      persistAnnotations();
+      renderAnnotationList();
+      scheduleRender();
+    }
+
+    const failed = failures.length;
+    const summary = `Batch completato: ${sent}/${pending.length} annotazioni registrate come contesto${failed ? ` · ${failed} errori` : ''}. Nessuna approvazione automatica per il test offline.`;
+    if (status) status.textContent = summary + (failed ? ` Dettagli: ${failures.map(x => `${x.annotationId}: ${x.error}`).join(' | ')}` : '');
+    if ($('chartDrawingStatus')) $('chartDrawingStatus').textContent = summary;
+    return { sent, failed, total: pending.length, failures };
   }
 
   async function approveAnnotationForLearning(id) {
@@ -647,6 +765,7 @@
     $('chartZoomOut')?.addEventListener('click', () => { state.viewCount = clamp(state.viewCount + 10, 20, 240); scheduleRender(); });
     $('chartReset')?.addEventListener('click', () => { state.panOffset = 0; state.viewCount = 75; setDrawMode('cursor'); scheduleRender(); });
     $('undoAnnotation')?.addEventListener('click', undoLast);
+    $('sendAllAnnotations')?.addEventListener('click', sendAllPendingAnnotationsToMachine);
     $('exportAnnotations')?.addEventListener('click', exportAnnotations);
     $('clearAnnotations')?.addEventListener('click', () => {
       if (confirm('Cancellare tutte le annotazioni manuali salvate su questo dispositivo? Esporta prima il JSON se vuoi conservarle.')) {
@@ -693,5 +812,5 @@
     scheduleRender();
   }
 
-  window.ChartCockpit = { init, setCandles, update, loadHistory, resize, setTradeOverlay, exportAnnotations, sendAnnotationToMachine, approveAnnotationForLearning, excludeAnnotationFromLearning, getAnnotations: () => state.annotations.map(a => ({ ...a })), getCandles: (tf) => (state.candles[String(tf)] || []).map(c => ({ ...c })), setStatus, schema: SCHEMA };
+  window.ChartCockpit = { init, setCandles, update, updateLivePrice, setLiveAge, loadHistory, resize, setTradeOverlay, exportAnnotations, sendAnnotationToMachine, sendAllPendingAnnotationsToMachine, approveAnnotationForLearning, excludeAnnotationFromLearning, getAnnotations: () => state.annotations.map(a => ({ ...a })), getCandles: (tf) => (state.candles[String(tf)] || []).map(c => ({ ...c })), getLivePrice: () => state.livePrice ? { ...state.livePrice } : null, setStatus, schema: SCHEMA };
 })();
