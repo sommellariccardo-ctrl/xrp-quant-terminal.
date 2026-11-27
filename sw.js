@@ -1,5 +1,5 @@
-/* XRP Quant Terminal PWA Service Worker — build 0.9.5 */
-const CACHE_NAME = 'xrp-quant-v095';
+/* XRP Quant Terminal PWA Service Worker — build 0.9.6 */
+const CACHE_NAME = 'xrp-quant-v096';
 const CACHE_PREFIX = 'xrp-quant-';
 const BASE = self.registration.scope;
 const APP_FILES = [
@@ -8,6 +8,7 @@ const APP_FILES = [
   BASE + 'cockpit-core.js',
   BASE + 'chart-engine.js',
   BASE + 'bybit-live-feed.js',
+  BASE + 'trade-reconciliation.js',
   BASE + 'manifest.webmanifest',
   BASE + 'icon-192.png',
   BASE + 'icon-512.png'
